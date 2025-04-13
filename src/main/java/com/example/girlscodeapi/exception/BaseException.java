@@ -1,14 +1,14 @@
 package com.example.girlscodeapi.exception;
 
 import com.example.girlscodeapi.exception.type.NotFoundType;
-import com.example.girlscodeapi.model.response.ResponseMessage;
+import com.example.girlscodeapi.model.enums.ResponseMessage;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Map;
 
-import static com.example.girlscodeapi.model.response.ErrorMessageResponse.NOT_FOUND;
-import static com.example.girlscodeapi.model.response.ErrorMessageResponse.UNEXPECTED;
+import static com.example.girlscodeapi.model.enums.ErrorMessageResponse.NOT_FOUND;
+import static com.example.girlscodeapi.model.enums.ErrorMessageResponse.UNEXPECTED;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
