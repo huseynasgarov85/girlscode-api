@@ -6,6 +6,7 @@ import com.example.girlscodeapi.service.SliderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,7 @@ public class SliderController {
     @PostMapping(consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "slider photo api", description = "this end point add to slider photo")
-    public BaseResponse<String> add(@RequestParam("photo") List<MultipartFile> multipartFile) {
+    public BaseResponse<String> add(@RequestParam("photo") MultipartFile multipartFile) {
         return BaseResponse.success(sliderService.add(multipartFile));
     }
 
@@ -44,6 +45,8 @@ public class SliderController {
         sliderService.remove(id);
         return BaseResponse.success();
     }
+
+
 
 
 }
