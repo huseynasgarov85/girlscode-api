@@ -1,5 +1,6 @@
 package com.example.girlscodeapi.service;
 
+import com.example.girlscodeapi.constant.UploadFolderConstant;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.SliderMapper;
 import com.example.girlscodeapi.model.dto.StorageDto;
@@ -12,10 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -27,13 +31,17 @@ public class SliderServiceImpl implements SliderService {
     private final StorageUtil storageUtil;
 
     @Override
-    public String add(MultipartFile multipartFile) {
+    public String add(List<MultipartFile> multipartFile) {
         log.info("ActionLog add started multipartFile " + multipartFile);
-        Slider slider = new Slider();
         try {
-            StorageDto storageDto = storageUtil.getStorageDto(multipartFile);
-            slider.setUrl(storageDto.getUrl());
-            sliderRepo.save(slider);
+            LinkedList<Slider> sliders = new LinkedList<>();
+            for (MultipartFile photo : multipartFile) {
+                Slider slider = new Slider();
+                String fileUrl = storageUtil.saveFile(photo);
+                slider.setUrl(fileUrl);
+                sliders.add(slider);
+            }
+            sliderRepo.saveAll(sliders);
         } catch (Exception e) {
             log.info("ActionLog error");
             throw BaseException.unexpected();
@@ -54,13 +62,11 @@ public class SliderServiceImpl implements SliderService {
     @Override
     public void update(String id, MultipartFile multipartFile) {
         log.info("ActionLog start update id :" + id);
-
-        Slider slider = sliderRepo.findById(id).orElseThrow(
-                () -> BaseException.notFound(Slider.class.getSimpleName(), "id", id.toString())
-        );
+        Slider slider = findById(id);
         try {
-            StorageDto storageDto = storageUtil.getStorageDto(multipartFile);
-            slider.setUrl(storageDto.getUrl());
+            storageUtil.removeFileIfExists(slider.getUrl());
+            String newFileUrl = storageUtil.saveFile(multipartFile);
+            slider.setUrl(newFileUrl);
             sliderRepo.save(slider);
         } catch (Exception e) {
             log.error("ActionLog error happen");
@@ -72,6 +78,8 @@ public class SliderServiceImpl implements SliderService {
     public void remove(String id) {
         log.info("ActionLog started remove id :" + id);
         try {
+            Slider slider = findById(id);
+            storageUtil.removeFileIfExists(slider.getUrl());
             sliderRepo.deleteById(id);
         } catch (Exception e) {
             log.error("ActionLog error ");
@@ -80,43 +88,12 @@ public class SliderServiceImpl implements SliderService {
         log.info("ActionLog end remove id :" + id);
     }
 
-
-//    private void deleteOldPhotoIfExists(String oldUrl) {
-//        if (oldUrl == null || oldUrl.isBlank()) {
-//            log.warn("Old photo URL is null or empty. Skip deleting.");
-//            return;
-//        }
-//
-//        try {
-//            String filePath = getPathFromUrl(oldUrl);
-//            File oldFile = new File(filePath);
-//
-//            if (oldFile.exists()) {
-//                boolean deleted = oldFile.delete();
-//                if (deleted) {
-//                    log.info("ActionLog: Old photo deleted: {}", oldFile.getName());
-//                } else {
-//                    log.warn("ActionLog: Failed to delete old photo: {}", oldFile.getName());
-//                }
-//            } else {
-//                log.warn("ActionLog: Old file does not exist at path: {}", filePath);
-//            }
-//
-//        } catch (Exception e) {
-//            log.error("ActionLog: Error occurred while deleting old photo: {}", oldUrl, e);
-//        }
-//    }
-//
-//    private String getPathFromUrl(String url) {
-//        String fileName = Paths.get(url).getFileName().toString(); // "photo.jpg"
-//        String uploadBasePath = "C:/your-project-root/uploads/"; // <-- düzəliş et
-//
-//        return uploadBasePath + fileName;
-//    }
-
-
-
-
-
+    @Override
+    public Slider findById(String id) {
+        return sliderRepo.findById(id).orElseThrow(
+                () -> BaseException.notFound(Slider.class.getSimpleName(), "id", id.toString())
+        );
+    }
 
 }
+
