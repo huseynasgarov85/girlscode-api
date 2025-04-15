@@ -2,7 +2,7 @@ package com.example.girlscodeapi.controller;
 
 import com.example.girlscodeapi.model.base.BaseResponse;
 import com.example.girlscodeapi.model.response.SliderResponse;
-import com.example.girlscodeapi.service.SliderService;
+import com.example.girlscodeapi.service.slider.SliderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

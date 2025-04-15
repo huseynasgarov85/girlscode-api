@@ -1,25 +1,18 @@
-package com.example.girlscodeapi.service;
+package com.example.girlscodeapi.service.slider;
 
-import com.example.girlscodeapi.constant.UploadFolderConstant;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.SliderMapper;
-import com.example.girlscodeapi.model.dto.StorageDto;
 import com.example.girlscodeapi.model.entity.Slider;
 import com.example.girlscodeapi.model.repo.SliderRepo;
 import com.example.girlscodeapi.model.response.SliderResponse;
-import com.example.girlscodeapi.util.StorageUtil;
+import com.example.girlscodeapi.util.slider.SliderStorageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
@@ -28,7 +21,7 @@ import java.util.UUID;
 public class SliderServiceImpl implements SliderService {
     private final SliderRepo sliderRepo;
     private final SliderMapper sliderMapper;
-    private final StorageUtil storageUtil;
+    private final SliderStorageUtil sliderStorageUtil;
 
     @Override
     public String add(List<MultipartFile> multipartFile) {
@@ -37,7 +30,7 @@ public class SliderServiceImpl implements SliderService {
             LinkedList<Slider> sliders = new LinkedList<>();
             for (MultipartFile photo : multipartFile) {
                 Slider slider = new Slider();
-                String fileUrl = storageUtil.saveFile(photo);
+                String fileUrl = sliderStorageUtil.saveFile(photo);
                 slider.setUrl(fileUrl);
                 sliders.add(slider);
             }
@@ -64,8 +57,8 @@ public class SliderServiceImpl implements SliderService {
         log.info("ActionLog start update id :" + id);
         Slider slider = findById(id);
         try {
-            storageUtil.removeFileIfExists(slider.getUrl());
-            String newFileUrl = storageUtil.saveFile(multipartFile);
+            sliderStorageUtil.removeFileIfExists(slider.getUrl());
+            String newFileUrl = sliderStorageUtil.saveFile(multipartFile);
             slider.setUrl(newFileUrl);
             sliderRepo.save(slider);
         } catch (Exception e) {
@@ -79,7 +72,7 @@ public class SliderServiceImpl implements SliderService {
         log.info("ActionLog started remove id :" + id);
         try {
             Slider slider = findById(id);
-            storageUtil.removeFileIfExists(slider.getUrl());
+            sliderStorageUtil.removeFileIfExists(slider.getUrl());
             sliderRepo.deleteById(id);
         } catch (Exception e) {
             log.error("ActionLog error ");
