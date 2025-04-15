@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.service;
+package com.example.girlscodeapi.service.Impl;
 
 import com.example.girlscodeapi.constant.UploadFolderConstant;
 import com.example.girlscodeapi.exception.BaseException;
@@ -7,6 +7,7 @@ import com.example.girlscodeapi.model.dto.StorageDto;
 import com.example.girlscodeapi.model.entity.Slider;
 import com.example.girlscodeapi.model.repo.SliderRepo;
 import com.example.girlscodeapi.model.response.SliderResponse;
+import com.example.girlscodeapi.service.SliderService;
 import com.example.girlscodeapi.util.StorageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
