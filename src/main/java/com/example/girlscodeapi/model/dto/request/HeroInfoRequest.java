@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HeroInfoRequest {
-    String id;
+
     String text;
     String url;
 }

@@ -1,47 +1,35 @@
 package com.example.girlscodeapi.controller;
-
-import com.example.girlscodeapi.model.dto.request.HeroInfoRequest;
 import com.example.girlscodeapi.model.dto.response.HeroInfoResponse;
-import com.example.girlscodeapi.model.entity.HeroInfo;
-import com.example.girlscodeapi.repository.HeroInfoRepository;
 import com.example.girlscodeapi.service.HeroInfoService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping({"/heroInfo"})
 public class HeroInfoController {
-    HeroInfoService heroInfoService;
-    private final HeroInfoService sliderService;
-    HeroInfoRepository heroInfoRepository;
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public HeroInfoResponse addForTest(@RequestBody HeroInfoRequest heroInfoRequest){
-        return  heroInfoService.addForTest(heroInfoRequest);
-    }
-//
-//    @PostMapping
-//    public HeroInfo addEntity(@RequestBody HeroInfo heroInfo){
-//        heroInfoRepository.save(heroInfo);
-//        return heroInfo;
-//    }
-
-    @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody HeroInfo heroInfo){
-        heroInfoRepository.save(heroInfo);
-    }
+   private final HeroInfoService heroInfoService;
 
 
-    @PostMapping(consumes = "multipart/form-data", value = "/addPhoto")
-    @ResponseStatus(HttpStatus.CREATED)
-   // @Operation(summary = "slider photo api", description = "this end point add to slider photo")
-    public String add(@RequestParam("photo") MultipartFile multipartFile) {
-        sliderService.add(multipartFile);
-        return "everything is okey" ;
-    }
+
+
+
+@GetMapping
+    public  ResponseEntity<HeroInfoResponse> get(){
+    return ResponseEntity.status(HttpStatus.OK).
+            body(heroInfoService.get());
+}
+
+@PutMapping(consumes = "multipart/form-data")
+@Operation(summary = "This api used update process", description = "api update photo")
+    public ResponseEntity<HeroInfoResponse> update(MultipartFile file,String text){
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(heroInfoService.update(file,text));
+}
 
 }
