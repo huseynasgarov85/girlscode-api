@@ -1,13 +1,12 @@
 package com.example.girlscodeapi.controller;
 
 import com.example.girlscodeapi.model.base.BaseResponse;
-import com.example.girlscodeapi.model.request.PartnersRequest;
-import com.example.girlscodeapi.model.response.PartnersResponse;
+import com.example.girlscodeapi.model.dto.request.PartnersRequest;
+import com.example.girlscodeapi.model.dto.response.PartnersResponse;
 import com.example.girlscodeapi.service.partners.PartnersService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

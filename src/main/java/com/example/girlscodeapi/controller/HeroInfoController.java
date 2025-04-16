@@ -1,6 +1,6 @@
 package com.example.girlscodeapi.controller;
 import com.example.girlscodeapi.model.dto.response.HeroInfoResponse;
-import com.example.girlscodeapi.service.HeroInfoService;
+import com.example.girlscodeapi.service.heroInfo.HeroInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping({"/heroInfo"})
 public class HeroInfoController {
    private final HeroInfoService heroInfoService;
-
 
 
 

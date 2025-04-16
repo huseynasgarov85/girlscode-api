@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.model.response;
+package com.example.girlscodeapi.model.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

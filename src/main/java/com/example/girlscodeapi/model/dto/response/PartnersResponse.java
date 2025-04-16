@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.model.dto;
+package com.example.girlscodeapi.model.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -6,8 +6,9 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StorageDto {
+@Builder
+public class PartnersResponse {
+    String id;
     String url;
 }

@@ -4,7 +4,7 @@ import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.SliderMapper;
 import com.example.girlscodeapi.model.entity.Slider;
 import com.example.girlscodeapi.model.repo.SliderRepo;
-import com.example.girlscodeapi.model.response.SliderResponse;
+import com.example.girlscodeapi.model.dto.response.SliderResponse;
 import com.example.girlscodeapi.util.slider.SliderStorageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

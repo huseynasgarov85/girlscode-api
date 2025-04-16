@@ -1,8 +1,8 @@
 package com.example.girlscodeapi.service.partners;
 
 import com.example.girlscodeapi.model.entity.Partners;
-import com.example.girlscodeapi.model.request.PartnersRequest;
-import com.example.girlscodeapi.model.response.PartnersResponse;
+import com.example.girlscodeapi.model.dto.request.PartnersRequest;
+import com.example.girlscodeapi.model.dto.response.PartnersResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

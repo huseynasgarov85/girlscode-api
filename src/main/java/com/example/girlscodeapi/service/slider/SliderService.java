@@ -1,7 +1,7 @@
 package com.example.girlscodeapi.service.slider;
 
 import com.example.girlscodeapi.model.entity.Slider;
-import com.example.girlscodeapi.model.response.SliderResponse;
+import com.example.girlscodeapi.model.dto.response.SliderResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

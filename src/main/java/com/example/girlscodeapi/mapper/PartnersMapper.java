@@ -1,7 +1,7 @@
 package com.example.girlscodeapi.mapper;
 
 import com.example.girlscodeapi.model.entity.Partners;
-import com.example.girlscodeapi.model.response.PartnersResponse;
+import com.example.girlscodeapi.model.dto.response.PartnersResponse;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,13 +1,12 @@
-package com.example.girlscodeapi.service.Impl;
+package com.example.girlscodeapi.service.heroInfo;
 
 import com.example.girlscodeapi.constant.HeroInfoConstant;
-import com.example.girlscodeapi.exception.NotFoundException;
+import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.HeroInfoMapper;
 
 import com.example.girlscodeapi.model.dto.response.HeroInfoResponse;
 import com.example.girlscodeapi.model.entity.HeroInfo;
-import com.example.girlscodeapi.repository.HeroInfoRepository;
-import com.example.girlscodeapi.service.HeroInfoService;
+import com.example.girlscodeapi.model.repo.HeroInfoRepository;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 
-
 @Service
 @Data
 @Slf4j
@@ -29,12 +27,10 @@ public class HeroInfoServiceImpl implements HeroInfoService {
     private final HeroInfoMapper heroInfoMapper;
 
 
-
-
     @Override
     public HeroInfoResponse add(MultipartFile file, String text) {
-        String fileName= UUID.randomUUID()+"_"+file.getOriginalFilename();
-        Path filePath= Paths.get(HeroInfoConstant.UPLOAD_DIR +fileName);
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get(HeroInfoConstant.UPLOAD_DIR + fileName);
         try {
             Files.createDirectories(filePath.getParent());
             Files.write(filePath, file.getBytes());
@@ -42,17 +38,17 @@ public class HeroInfoServiceImpl implements HeroInfoService {
             throw new RuntimeException(e);
         }
 
-        HeroInfo heroInfo=new HeroInfo();
-        heroInfo.setUrl(HeroInfoConstant.UPLOAD_DIR +fileName);
+        HeroInfo heroInfo = new HeroInfo();
+        heroInfo.setUrl(HeroInfoConstant.UPLOAD_DIR + fileName);
         heroInfo.setText(text);
         heroInfoRepository.save(heroInfo);
-        return heroInfoMapper.mapToResponse(heroInfo) ;
+        return heroInfoMapper.mapToResponse(heroInfo);
     }
 
     @Override
     public HeroInfoResponse update(MultipartFile file, String text) {
         HeroInfo heroInfo = heroInfoRepository.findById("67fcd32d4b04077e46668e5d")
-                .orElseThrow(() -> new NotFoundException("Hero not found"));
+                .orElseThrow(() -> BaseException.notFound(HeroInfo.class.getSimpleName(), "id", "67fcd32d4b04077e46668e5d"));
 
         if (heroInfo.getUrl() != null) {
             String oldFilename = Paths.get(heroInfo.getUrl()).getFileName().toString();
@@ -83,7 +79,7 @@ public class HeroInfoServiceImpl implements HeroInfoService {
 
     @Override
     public HeroInfoResponse get() {
-        HeroInfo heroInfo=heroInfoRepository.findById("67fcd32d4b04077e46668e5d").orElseThrow(()->new NotFoundException("heroInfo not found"));
+        HeroInfo heroInfo = heroInfoRepository.findById("67fcd32d4b04077e46668e5d").orElseThrow(() -> BaseException.notFound(HeroInfo.class.getSimpleName(), "id", "67fcd32d4b04077e46668e5d"));
         return heroInfoMapper.mapToResponse(heroInfo);
     }
 
