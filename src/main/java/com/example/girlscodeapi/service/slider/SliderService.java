@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.service;
+package com.example.girlscodeapi.service.slider;
 
 import com.example.girlscodeapi.model.entity.Slider;
 import com.example.girlscodeapi.model.response.SliderResponse;
