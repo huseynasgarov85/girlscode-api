@@ -36,7 +36,7 @@ public class SuccessStoryController {
     @Operation(summary = "This end point updated", description = "This api update some fields")
     public BaseResponse<Void> update(
             @PathVariable String id,
-            @RequestPart(name = "request",required = false) SuccessStoryRequestForUpdate successStoryRequest,
+            @RequestPart(name = "request", required = false) SuccessStoryRequestForUpdate successStoryRequest,
             @RequestPart(name = "photo", required = false) MultipartFile multipartFile
     ) {
         System.out.println(successStoryRequest.getFullNameAZ());
