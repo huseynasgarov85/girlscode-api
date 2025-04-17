@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.service;
+package com.example.girlscodeapi.service.heroInfo;
 
 import com.example.girlscodeapi.model.dto.response.HeroInfoResponse;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.service.Impl;
+package com.example.girlscodeapi.service.heroInfo;
 
 import com.example.girlscodeapi.constant.HeroInfoConstant;
 import com.example.girlscodeapi.exception.NotFoundException;
@@ -6,8 +6,8 @@ import com.example.girlscodeapi.mapper.HeroInfoMapper;
 
 import com.example.girlscodeapi.model.dto.response.HeroInfoResponse;
 import com.example.girlscodeapi.model.entity.HeroInfo;
-import com.example.girlscodeapi.repository.HeroInfoRepository;
-import com.example.girlscodeapi.service.HeroInfoService;
+import com.example.girlscodeapi.model.repository.HeroInfoRepository;
+import com.example.girlscodeapi.service.heroInfo.HeroInfoService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
