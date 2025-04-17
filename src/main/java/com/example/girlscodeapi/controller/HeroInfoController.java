@@ -1,4 +1,5 @@
 package com.example.girlscodeapi.controller;
+
 import com.example.girlscodeapi.model.dto.response.HeroInfoResponse;
 import com.example.girlscodeapi.service.heroInfo.HeroInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,22 +14,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping({"/heroInfo"})
 public class HeroInfoController {
-   private final HeroInfoService heroInfoService;
+    private final HeroInfoService heroInfoService;
 
 
+    @GetMapping
+    public ResponseEntity<HeroInfoResponse> get() {
+        return ResponseEntity.status(HttpStatus.OK).
+                body(heroInfoService.get());
+    }
 
-
-@GetMapping
-    public  ResponseEntity<HeroInfoResponse> get(){
-    return ResponseEntity.status(HttpStatus.OK).
-            body(heroInfoService.get());
-}
-
-@PutMapping(consumes = "multipart/form-data")
-@Operation(summary = "This api used update process", description = "api update photo")
-    public ResponseEntity<HeroInfoResponse> update(MultipartFile file,String text){
-    return ResponseEntity.status(HttpStatus.OK)
-            .body(heroInfoService.update(file,text));
-}
+    @PutMapping(consumes = "multipart/form-data")
+    @Operation(summary = "This api used update process", description = "api update photo")
+    public ResponseEntity<HeroInfoResponse> update(MultipartFile file, String text) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(heroInfoService.update(file, text));
+    }
 
 }
