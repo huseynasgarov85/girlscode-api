@@ -16,11 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CounterController {
     private final CounterService counterService;
+    private final CounterRepo counterRepo;
 
     @PutMapping(path = "/{id}")
     @Operation(summary = "This api updated number of counter side also will insert number", description = "update insert api")
-    public BaseResponse<String> update(@RequestBody CounterRequest counterRequest, @RequestParam(name = "id", required = false) String id) {
-        return BaseResponse.success(counterService.update(counterRequest, id));
+    public BaseResponse<String> update(@RequestBody CounterRequest counterRequest) {
+        return BaseResponse.success(counterService.update(counterRequest));
     }
 
     @GetMapping
@@ -28,4 +29,11 @@ public class CounterController {
     public BaseResponse<List<CounterResponse>> getAll() {
         return BaseResponse.success(counterService.getAll());
     }
+
+//    @PostMapping
+//    public BaseResponse<Void> postOneTime(@RequestBody CounterRequest counterRequest) {
+//        counterService.postOneTime(counterRequest);
+//        return BaseResponse.success();
+//    }
+
 }

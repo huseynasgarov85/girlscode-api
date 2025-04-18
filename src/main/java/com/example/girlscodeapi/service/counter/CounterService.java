@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface CounterService {
 
-    String update(CounterRequest counterRequest, String id);
+    String update(CounterRequest counterRequest);
 
     List<CounterResponse> getAll();
+
+    void postOneTime(CounterRequest counterRequest);
 }

@@ -15,4 +15,5 @@ public class Counter {
     @Id
     String id;
     String number;
+    String url;
 }

@@ -23,28 +23,17 @@ public class CounterServiceImpl implements CounterService {
 
     @Override
     @Transactional(rollbackFor = BaseException.class, propagation = Propagation.REQUIRED)
-    public String update(CounterRequest counterRequest, String id) {
+    public String update(CounterRequest counterRequest) {
         log.info("ActionLog started update number :" + counterRequest.getNumber());
-        Counter counter = new Counter();
-        if (id == null) {
-            counter.setNumber(counterRequest.getNumber());
-            try {
-                counterRepo.save(counter);
-            } catch (Exception e) {
-                log.error("ActionLog error happen");
-                throw BaseException.unexpected();
-            }
-        } else {
-            Counter updateCounter = counterRepo.findById(id).orElseThrow(() -> BaseException.notFound(Counter.class.getSimpleName(), "id", id.toString()));
+        try {
+            Counter updateCounter = counterRepo.findById("68022d0be6dd776af31a4f33").orElseThrow(() -> new RuntimeException("Id not founded"));
             updateCounter.setNumber(counterRequest.getNumber());
-            try {
-                counterRepo.save(updateCounter);
-            } catch (Exception e) {
-                log.error("ActionLog error happen");
-                throw BaseException.unexpected();
-            }
+            updateCounter.setUrl(counterRequest.getUrl());
+            counterRepo.save(updateCounter);
+        } catch (Exception e) {
+            log.error("ActionLog error happen");
+            throw BaseException.unexpected();
         }
-
         return "process successfully happen";
     }
 
@@ -54,5 +43,11 @@ public class CounterServiceImpl implements CounterService {
         List<Counter> counter = counterRepo.findAll();
         log.info("ActionLog end getById ");
         return counter.stream().map(counterMapper::mapToResponse).toList();
+    }
+
+    @Override
+    public void postOneTime(CounterRequest counterRequest) {
+        Counter counter = counterMapper.mapToEntity(counterRequest);
+        counterRepo.save(counter);
     }
 }
