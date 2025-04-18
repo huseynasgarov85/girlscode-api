@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CounterController {
     private final CounterService counterService;
-    private final CounterRepo counterRepo;
 
     @PutMapping(path = "/{id}")
     @Operation(summary = "This api updated number of counter side also will insert number", description = "update insert api")
