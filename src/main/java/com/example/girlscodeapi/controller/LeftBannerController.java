@@ -13,20 +13,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/leftBanner")
 public class LeftBannerController {
-    private  final LeftBannerService service;
+    private final LeftBannerService service;
 
     @GetMapping
-    public ResponseEntity<LeftBannerResponse> get(){
+    public ResponseEntity<LeftBannerResponse> get() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(service.get());
     }
-    @PutMapping(consumes = "multipart/form-data")
-    @Operation(summary = "leftBanner update api",description = "this end point update to leftBanner")
-    public ResponseEntity<LeftBannerResponse> update(MultipartFile file){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(service.update( file));
-    }
 
+    @PutMapping(consumes = "multipart/form-data")
+    @Operation(summary = "leftBanner update api", description = "this end point update to leftBanner")
+    public ResponseEntity<LeftBannerResponse> update(MultipartFile file) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.update(file));
+    }
 
 
 }
