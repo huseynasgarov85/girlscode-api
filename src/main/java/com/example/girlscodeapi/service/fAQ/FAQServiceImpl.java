@@ -22,7 +22,7 @@ public class FAQServiceImpl implements FAQService {
 
     @Override
     public FAQResponse add(FAQRequest request) {
-        FAQ fAQ = mapper.mapToEntity(request);
+        FAQ fAQ = mapper.map(request);
         repository.save(fAQ);
         return mapper.mapToResponse(fAQ);
     }
@@ -36,7 +36,7 @@ public class FAQServiceImpl implements FAQService {
     @Override
     public FAQResponse update(FAQRequest request) {
         FAQ fAQ = repository.findById(request.getId()).orElseThrow(() -> BaseException.notFound(FAQ.class.getSimpleName(), "id", request.getId()));
-        FAQ faq1 = mapper.mapToEntity(request, fAQ);
+        FAQ faq1 = mapper.map(request, fAQ);
         repository.save(faq1);
         return mapper.mapToResponse(faq1);
     }

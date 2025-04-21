@@ -9,8 +9,8 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface FAQMapper {
-    FAQ mapToEntity(FAQRequest request);
+    FAQ map(FAQRequest request);
     FAQResponse mapToResponse(FAQ fAQ);
-    FAQ mapToEntity(FAQRequest request, @MappingTarget FAQ faq);
+    FAQ map(FAQRequest request, @MappingTarget FAQ faq);
 
 }

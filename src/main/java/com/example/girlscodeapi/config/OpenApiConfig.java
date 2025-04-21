@@ -16,8 +16,8 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
                         email = "huseynnaskerovv@gmail.com",
                         url = "https://github.com/huseynasgarov85"
                 ),
-                description = "GirlsCode Project ",
-                title = "GirlsCode Project",
+                description = "GirlsCode Projects ",
+                title = "GirlsCode Projects",
                 version = "1.0",
                 license = @License(
                         name = "Licence name"
