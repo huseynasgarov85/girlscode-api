@@ -6,6 +6,7 @@ import com.example.girlscodeapi.model.dto.response.CounterResponse;
 import com.example.girlscodeapi.model.repo.CounterRepo;
 import com.example.girlscodeapi.service.counter.CounterService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class CounterController {
 
     @PutMapping(path = "/{id}")
     @Operation(summary = "This api updated number of counter side also will insert number", description = "update insert api")
-    public BaseResponse<String> update(@RequestBody CounterRequest counterRequest) {
+    public BaseResponse<String> update(@RequestBody @Valid CounterRequest counterRequest) {
         return BaseResponse.success(counterService.update(counterRequest));
     }
 

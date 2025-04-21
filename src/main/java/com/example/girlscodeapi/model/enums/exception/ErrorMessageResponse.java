@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.model.enums;
+package com.example.girlscodeapi.model.enums.exception;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -3,14 +3,14 @@ package com.example.girlscodeapi.model.base;
 
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.exception.type.NotFoundType;
-import com.example.girlscodeapi.model.enums.ResponseMessage;
+import com.example.girlscodeapi.model.enums.exception.ResponseMessage;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 
-import static com.example.girlscodeapi.model.enums.ErrorMessageResponse.NOT_FOUND;
-import static com.example.girlscodeapi.model.enums.SuccessMessageResponse.SUCCESS;
+import static com.example.girlscodeapi.model.enums.exception.ErrorMessageResponse.NOT_FOUND;
+import static com.example.girlscodeapi.model.enums.exception.SuccessMessageResponse.SUCCESS;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
