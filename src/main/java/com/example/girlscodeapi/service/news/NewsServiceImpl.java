@@ -12,6 +12,7 @@ import com.example.girlscodeapi.model.dto.response.PhotoResponse;
 import com.example.girlscodeapi.model.entity.CoverPhoto;
 import com.example.girlscodeapi.model.entity.Photo;
 import com.example.girlscodeapi.model.enums.filter.DateFilter;
+import com.example.girlscodeapi.model.enums.recommended.Recommended;
 import com.example.girlscodeapi.model.repo.NewsRepo;
 import com.example.girlscodeapi.model.repo.PhotoRepo;
 import com.example.girlscodeapi.util.news.NewsCoverPhotoStorageUtil;
@@ -44,7 +45,7 @@ public class NewsServiceImpl implements NewsService {
         CoverPhoto coverPhoto;
         try {
             String url = newsCoverPhotoStorageUtil.saveFile(coverPhotoRequest.getMultipartFile());
-            coverPhoto = newsMapper.mapToEntityCoverPhoto(coverPhotoRequest, url);
+            coverPhoto = newsMapper.mapToEntityCoverPhoto(coverPhotoRequest, url, coverPhotoRequest.getRecommended());
             newsRepo.save(coverPhoto);
         } catch (Exception e) {
             log.info("ActionLog error happen");

@@ -1,5 +1,6 @@
 package com.example.girlscodeapi.model.entity;
 
+import com.example.girlscodeapi.model.enums.recommended.Recommended;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
@@ -26,4 +27,5 @@ public class CoverPhoto {
     String url;
     @DBRef
     List<Photo> photos;
+    Recommended recommended;
 }

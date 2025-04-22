@@ -1,6 +1,7 @@
 package com.example.girlscodeapi.model.dto.response;
 
 import com.example.girlscodeapi.model.entity.Photo;
+import com.example.girlscodeapi.model.enums.recommended.Recommended;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,5 +22,6 @@ public class NewsResponse {
     LocalDate date;
     String url;
     List<Photo> photos;
+    Recommended recommended;
 
 }

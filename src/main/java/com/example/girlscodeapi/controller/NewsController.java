@@ -9,6 +9,7 @@ import com.example.girlscodeapi.model.dto.response.CoverPhotoResponse;
 import com.example.girlscodeapi.model.dto.response.NewsResponse;
 import com.example.girlscodeapi.model.dto.response.PhotoResponse;
 import com.example.girlscodeapi.model.enums.filter.DateFilter;
+import com.example.girlscodeapi.model.enums.recommended.Recommended;
 import com.example.girlscodeapi.service.news.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

@@ -1,5 +1,6 @@
 package com.example.girlscodeapi.model.dto.request;
 
+import com.example.girlscodeapi.model.enums.recommended.Recommended;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,4 +26,6 @@ public class CoverPhotoRequest {
     String textENG;
     @NotNull
     LocalDate date;
+    @NotNull
+    Recommended recommended;
 }

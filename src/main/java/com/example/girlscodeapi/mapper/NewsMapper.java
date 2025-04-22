@@ -7,12 +7,13 @@ import com.example.girlscodeapi.model.dto.response.NewsResponse;
 import com.example.girlscodeapi.model.dto.response.PhotoResponse;
 import com.example.girlscodeapi.model.entity.CoverPhoto;
 import com.example.girlscodeapi.model.entity.Photo;
+import com.example.girlscodeapi.model.enums.recommended.Recommended;
 import org.springframework.stereotype.Component;
 
 @Component
 public class NewsMapper {
 
-    public CoverPhoto mapToEntityCoverPhoto(CoverPhotoRequest coverPhotoRequest, String url) {
+    public CoverPhoto mapToEntityCoverPhoto(CoverPhotoRequest coverPhotoRequest, String url, Recommended recommended) {
         return CoverPhoto
                 .builder()
                 .date(coverPhotoRequest.getDate())
@@ -21,6 +22,7 @@ public class NewsMapper {
                 .titleAZ(coverPhotoRequest.getTitleAZ())
                 .titleENG(coverPhotoRequest.getTitleENG())
                 .url(url)
+                .recommended(recommended)
                 .build();
     }
 
@@ -48,6 +50,7 @@ public class NewsMapper {
                 .id(coverPhoto.getId())
                 .textAZ(coverPhoto.getTextAZ())
                 .url(coverPhoto.getUrl())
+                .recommended(coverPhoto.getRecommended())
                 .build();
     }
 
