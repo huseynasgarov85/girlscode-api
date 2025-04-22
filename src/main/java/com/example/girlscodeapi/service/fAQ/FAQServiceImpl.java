@@ -43,7 +43,7 @@ public class FAQServiceImpl implements FAQService {
 
     @Override
     public void delete(String id) {
-    FAQ fAQ=repository.findById(id).orElseThrow(()->BaseException.notFound(FAQ.class.getSimpleName(),"id",id));
+    repository.findById(id).orElseThrow(()->BaseException.notFound(FAQ.class.getSimpleName(),"id",id));
     repository.deleteById(id);
 
     }

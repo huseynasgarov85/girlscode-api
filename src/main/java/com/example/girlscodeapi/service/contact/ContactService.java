@@ -1,0 +1,14 @@
+package com.example.girlscodeapi.service.contact;
+
+import com.example.girlscodeapi.model.dto.request.ContactRequest;
+import com.example.girlscodeapi.model.dto.response.ContactResponse;
+
+import java.util.List;
+
+public interface ContactService {
+    ContactResponse add(ContactRequest request);
+    ContactResponse getById(String id);
+    ContactResponse update(String id,ContactRequest request);
+    List<ContactResponse> getAll();
+    void delete(String id);
+}
