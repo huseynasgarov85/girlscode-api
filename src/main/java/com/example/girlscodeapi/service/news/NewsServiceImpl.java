@@ -8,6 +8,7 @@ import com.example.girlscodeapi.model.dto.request.PhotoRequest;
 import com.example.girlscodeapi.model.dto.request.PhotoRequestForUpdate;
 import com.example.girlscodeapi.model.dto.response.CoverPhotoResponse;
 import com.example.girlscodeapi.model.dto.response.NewsResponse;
+import com.example.girlscodeapi.model.dto.response.PagingResult;
 import com.example.girlscodeapi.model.dto.response.PhotoResponse;
 import com.example.girlscodeapi.model.entity.CoverPhoto;
 import com.example.girlscodeapi.model.entity.Photo;
@@ -24,10 +25,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -82,18 +80,33 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<NewsResponse> getAll(DateFilter dateFilter) {
+    public Object getAll(DateFilter dateFilter, Integer page, Integer size, Recommended recommended) {
         log.info("ActionLog started getAll");
-        List<CoverPhoto> coverPhotos = newsRepo.findAll();
-        log.info("coverData " + coverPhotos);
-        List<NewsResponse> filter = new ArrayList<>();
-        switch (dateFilter) {
-            case recent_history:
-                filter = recentHistory(coverPhotos);
-                break;
-            case distant_history:
-                filter = distantHistory(coverPhotos);
-                break;
+        List<CoverPhoto> coverPhotos = (recommended != null && recommended.equals(Recommended.TRUE))
+                ? newsRepo.findByRecommendedTrue(recommended) : newsRepo.findAll();
+        List<NewsResponse> filter = applyDateFilter(dateFilter, coverPhotos);
+        if (page != null && size != null) {
+            int start = page * size;
+            int end = Math.min(start + size, filter.size());
+            if (start >= filter.size()) {
+                return new PagingResult<>(
+                        Collections.emptyList(),
+                        (int) Math.ceil((double) filter.size() / size),
+                        filter.size(),
+                        size,
+                        page,
+                        true
+                );
+            }
+            List<NewsResponse> pageContent = filter.subList(start, end);
+            return new PagingResult<>(
+                    pageContent,
+                    (int) Math.ceil((double) filter.size() / size),
+                    filter.size(),
+                    size,
+                    page,
+                    pageContent.isEmpty()
+            );
         }
         log.info("ActionLog end getAll");
         return filter;
@@ -172,6 +185,20 @@ public class NewsServiceImpl implements NewsService {
         }
         log.info("ActionLog removed end coverId :" + coverId);
     }
+
+    private List<NewsResponse> applyDateFilter(DateFilter dateFilter, List<CoverPhoto> coverPhotos) {
+        List<NewsResponse> filtered = new ArrayList<>();
+        switch (dateFilter) {
+            case recent_history:
+                filtered = recentHistory(coverPhotos);
+                break;
+            case distant_history:
+                filtered = distantHistory(coverPhotos);
+                break;
+        }
+        return filtered;
+    }
+
 
     private List<NewsResponse> recentHistory(List<CoverPhoto> coverPhotos) {
         List<NewsResponse> responseList = new ArrayList<>();

@@ -1,16 +1,13 @@
 package com.example.girlscodeapi.service.news;
 
-import com.example.girlscodeapi.model.dto.request.CoverPhotoRequest;
-import com.example.girlscodeapi.model.dto.request.CoverPhotoRequestForUpdate;
-import com.example.girlscodeapi.model.dto.request.PhotoRequest;
-import com.example.girlscodeapi.model.dto.request.PhotoRequestForUpdate;
+import com.example.girlscodeapi.model.dto.request.*;
 import com.example.girlscodeapi.model.dto.response.CoverPhotoResponse;
-import com.example.girlscodeapi.model.dto.response.NewsResponse;
 import com.example.girlscodeapi.model.dto.response.PhotoResponse;
 import com.example.girlscodeapi.model.enums.filter.DateFilter;
+import com.example.girlscodeapi.model.enums.recommended.Recommended;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface NewsService {
 
@@ -18,7 +15,7 @@ public interface NewsService {
 
     PhotoResponse postListPhoto(PhotoRequest photoRequest);
 
-    List<NewsResponse> getAll(DateFilter dateFilter);
+    Object getAll(DateFilter dateFilter, Integer page, Integer size, Recommended recommended);
 
     String updateCover(String coverId, CoverPhotoRequestForUpdate coverPhotoRequestForUpdate, MultipartFile multipartFile);
 

@@ -1,10 +1,7 @@
 package com.example.girlscodeapi.controller;
 
 import com.example.girlscodeapi.model.base.BaseResponse;
-import com.example.girlscodeapi.model.dto.request.CoverPhotoRequest;
-import com.example.girlscodeapi.model.dto.request.CoverPhotoRequestForUpdate;
-import com.example.girlscodeapi.model.dto.request.PhotoRequest;
-import com.example.girlscodeapi.model.dto.request.PhotoRequestForUpdate;
+import com.example.girlscodeapi.model.dto.request.*;
 import com.example.girlscodeapi.model.dto.response.CoverPhotoResponse;
 import com.example.girlscodeapi.model.dto.response.NewsResponse;
 import com.example.girlscodeapi.model.dto.response.PhotoResponse;
@@ -39,11 +36,21 @@ public class NewsController {
     public BaseResponse<PhotoResponse> postListPhoto(@ModelAttribute @Valid PhotoRequest photoRequest) {
         return BaseResponse.success(newsService.postListPhoto(photoRequest));
     }
+//    /new?recommended=true
+//    /new
+//    /new?page1&data=10
 
     @GetMapping
-    @Operation(summary = "This end point get news", description = "get news")
-    public BaseResponse<List<NewsResponse>> getAll(@RequestParam(required = false) DateFilter dateFilter) {
-        return BaseResponse.success(newsService.getAll(dateFilter));
+    @Operation(summary = "This end point get news , pagination , recommended true will return", description = "get news")
+    public BaseResponse<?> getAll(
+            @RequestParam(required = false) DateFilter dateFilter,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) Recommended recommended
+    ) {
+        Object getAll = newsService.getAll(dateFilter, page, size, recommended);
+        final PaginationRequest request = new PaginationRequest(page, size);
+        return BaseResponse.success(getAll);
     }
 
     @PutMapping(path = "/{coverId}", consumes = "multipart/form-data")
@@ -53,6 +60,7 @@ public class NewsController {
             @RequestPart(name = "request", required = false) CoverPhotoRequestForUpdate coverPhotoRequestForUpdate,
             @RequestPart(name = "photo", required = false) MultipartFile multipartFile
     ) {
+
         return BaseResponse.success(newsService.updateCover(coverId, coverPhotoRequestForUpdate, multipartFile));
     }
 

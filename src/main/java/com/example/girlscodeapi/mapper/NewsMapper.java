@@ -58,5 +58,20 @@ public class NewsMapper {
         return PhotoResponse.builder().id(photo.getId()).build();
     }
 
+    public NewsResponse mapToNewsResponse(NewsResponse newsResponse) {
+        return NewsResponse
+                .builder()
+                .date(newsResponse.getDate())
+                .photos(newsResponse.getPhotos())
+                .titleAZ(newsResponse.getTitleAZ())
+                .titleENG(newsResponse.getTitleENG())
+                .textENG(newsResponse.getTextENG())
+                .id(newsResponse.getId())
+                .textAZ(newsResponse.getTextAZ())
+                .url(newsResponse.getUrl())
+                .recommended(newsResponse.getRecommended())
+                .build();
+    }
+
 
 }
