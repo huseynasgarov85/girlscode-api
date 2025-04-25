@@ -1,19 +1,21 @@
-package com.example.girlscodeapi.model.dto.request;
+package com.example.girlscodeapi.model.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
+@Document(collection = "ourValues")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CoverPhotoRequestForUpdate {
+public class OurValues {
+    @Id
+    String id;
     String titleAZ;
     String titleENG;
     String textAZ;
     String textENG;
-    LocalDate date;
 }

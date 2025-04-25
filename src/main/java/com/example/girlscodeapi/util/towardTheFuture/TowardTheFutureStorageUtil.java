@@ -1,6 +1,6 @@
-package com.example.girlscodeapi.util.successStory;
+package com.example.girlscodeapi.util.towardTheFuture;
 
-import com.example.girlscodeapi.constant.UploadSuccessStoryFolderConstant;
+import com.example.girlscodeapi.constant.TowardTheFutureFolderConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,11 +13,11 @@ import java.util.UUID;
 
 @Component
 @Slf4j
-public class SuccessStoryStorageUtil {
+public class TowardTheFutureStorageUtil {
 
     public String saveFile(MultipartFile file) {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(UploadSuccessStoryFolderConstant.UPLOAD_SUCCESS_STORY_FOLDER_PATH).resolve(fileName);
+        Path filePath = Paths.get(TowardTheFutureFolderConstant.TOWARD_THE_FUTURE_FOLDER_UPLOAD).resolve(fileName);
         try {
             Files.createDirectories(filePath.getParent());
             Files.write(filePath, file.getBytes());

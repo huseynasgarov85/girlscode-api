@@ -14,6 +14,7 @@ import com.example.girlscodeapi.model.entity.CoverPhoto;
 import com.example.girlscodeapi.model.entity.Photo;
 import com.example.girlscodeapi.model.enums.filter.DateFilter;
 import com.example.girlscodeapi.model.enums.recommended.Recommended;
+import com.example.girlscodeapi.model.enums.recommended.RecommendedCheck;
 import com.example.girlscodeapi.model.repo.NewsRepo;
 import com.example.girlscodeapi.model.repo.PhotoRepo;
 import com.example.girlscodeapi.util.news.NewsCoverPhotoStorageUtil;
@@ -80,9 +81,9 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Object getAll(DateFilter dateFilter, Integer page, Integer size, Recommended recommended) {
+    public Object getAll(DateFilter dateFilter, Integer page, Integer size, RecommendedCheck recommended) {
         log.info("ActionLog started getAll");
-        List<CoverPhoto> coverPhotos = (recommended != null && recommended.equals(Recommended.TRUE))
+        List<CoverPhoto> coverPhotos = (recommended != null && recommended.equals(RecommendedCheck.TRUE))
                 ? newsRepo.findByRecommendedTrue(recommended) : newsRepo.findAll();
         List<NewsResponse> filter = applyDateFilter(dateFilter, coverPhotos);
         if (page != null && size != null) {

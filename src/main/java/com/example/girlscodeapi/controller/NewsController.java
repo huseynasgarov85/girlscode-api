@@ -7,6 +7,7 @@ import com.example.girlscodeapi.model.dto.response.NewsResponse;
 import com.example.girlscodeapi.model.dto.response.PhotoResponse;
 import com.example.girlscodeapi.model.enums.filter.DateFilter;
 import com.example.girlscodeapi.model.enums.recommended.Recommended;
+import com.example.girlscodeapi.model.enums.recommended.RecommendedCheck;
 import com.example.girlscodeapi.service.news.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -46,10 +47,9 @@ public class NewsController {
             @RequestParam(required = false) DateFilter dateFilter,
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) Recommended recommended
+            @RequestParam(required = false) RecommendedCheck recommended
     ) {
         Object getAll = newsService.getAll(dateFilter, page, size, recommended);
-        final PaginationRequest request = new PaginationRequest(page, size);
         return BaseResponse.success(getAll);
     }
 
