@@ -9,7 +9,13 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+@Configuration
+@EnableMongoRepositories(basePackages = "com.example.girlscodeapi.model.repo")
+@ComponentScan(basePackages = "com.example.girlscodeapi")
 public class MongoClientConnectionExample {
     public static void main(String[] args) {
         String connectionString = "mongodb+srv://girlscode:Kc4ycgqFGM2LRXDS@cluster0.7pmhsdk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
