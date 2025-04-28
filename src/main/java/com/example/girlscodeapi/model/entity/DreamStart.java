@@ -1,22 +1,22 @@
 package com.example.girlscodeapi.model.entity;
 
-//import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "dream_start")
 @Data
-@Document(collection = "hero_info")
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class HeroInfo {
-
+public class DreamStart {
     @Id
     String id;
     String textAz;
     String textEng;
-    String url;
-
+    String imageUrl;
 }
