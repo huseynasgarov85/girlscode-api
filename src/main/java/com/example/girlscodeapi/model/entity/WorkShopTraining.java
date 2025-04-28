@@ -1,22 +1,23 @@
 package com.example.girlscodeapi.model.entity;
 
-//import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "workshop_training")
 @Data
-@Document(collection = "hero_info")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class HeroInfo {
-
-    @Id
+public class WorkShopTraining {
     String id;
+    String titleAz;
+    String TitleEng;
     String textAz;
     String textEng;
-    String url;
+    String imageUrl;
 
 }
