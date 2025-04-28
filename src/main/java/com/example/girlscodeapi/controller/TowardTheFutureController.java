@@ -1,7 +1,6 @@
 package com.example.girlscodeapi.controller;
 
 import com.example.girlscodeapi.model.base.BaseResponse;
-import com.example.girlscodeapi.model.dto.request.BottomTowardFutureRequest;
 import com.example.girlscodeapi.model.dto.request.BottomTowardFutureRequestForUpdate;
 import com.example.girlscodeapi.model.dto.request.TowardTheFutureRequestForUpdate;
 import com.example.girlscodeapi.model.dto.response.BottomTowardFutureResponse;
@@ -43,7 +42,6 @@ public class TowardTheFutureController {
         return BaseResponse.success(towardTheFutureService.update(towardTheFutureRequestForUpdate, multipartFile));
     }
 
-
 //    @PostMapping
 //    @Operation(summary = "this end point will post bottom side in towardFuture", description = "post bottom side")
 //    public BaseResponse<Void> postBottomSide(@RequestBody BottomTowardFutureRequest request) {
@@ -57,7 +55,7 @@ public class TowardTheFutureController {
         return BaseResponse.success(towardTheFutureService.getAllBottomSide());
     }
 
-    @PutMapping(value= "/{id}/updateBottomSide")
+    @PutMapping(value = "/{id}/updateBottomSide")
     @Operation(summary = "this end point update bottom side", description = "update bottom side")
     public BaseResponse<Void> updateBottomSide(@RequestBody BottomTowardFutureRequestForUpdate request) {
         towardTheFutureService.updateBottomSide(request);

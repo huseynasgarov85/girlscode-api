@@ -39,7 +39,6 @@ public class SuccessStoryController {
             @RequestPart(name = "request", required = false) SuccessStoryRequestForUpdate successStoryRequest,
             @RequestPart(name = "photo", required = false) MultipartFile multipartFile
     ) {
-        System.out.println(successStoryRequest.getFullNameAZ());
         successStoryService.update(successStoryRequest, id, multipartFile);
         return BaseResponse.success();
     }

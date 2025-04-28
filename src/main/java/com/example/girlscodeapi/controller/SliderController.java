@@ -24,7 +24,6 @@ public class SliderController {
         return BaseResponse.success(sliderService.add(multipartFile));
     }
 
-
     @GetMapping
     @Operation(summary = "this end point getAll photos to slider side ", description = "getAll photo to slider")
     public BaseResponse<List<SliderResponse>> getAll() {

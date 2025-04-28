@@ -13,6 +13,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class PartnersRequest {
-    @Size(max = 18, message = "you must insert max 18 photo")
+    @Size(max = 18, min = 18, message = "you must insert max 18 photo")
     List<MultipartFile> multipartFiles;
 }

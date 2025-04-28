@@ -1,12 +1,10 @@
 package com.example.girlscodeapi.controller;
 
 import com.example.girlscodeapi.model.base.BaseResponse;
-import com.example.girlscodeapi.model.dto.request.AboutUsRequest;
 import com.example.girlscodeapi.model.dto.request.AboutUsUpdate;
 import com.example.girlscodeapi.model.dto.response.AboutUsResponse;
 import com.example.girlscodeapi.service.aboutUs.AboutUsService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
