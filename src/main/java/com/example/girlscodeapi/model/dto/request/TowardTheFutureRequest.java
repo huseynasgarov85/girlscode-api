@@ -1,26 +1,28 @@
 package com.example.girlscodeapi.model.dto.request;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SuccessStoryRequestForUpdate {
-    MultipartFile multipartFile;
-    Integer row;
-    String fullNameAZ;
-    String fullNameENG;
-    LocalDate dateTime;
-    String titleAZ;
-    String titleENG;
+@Builder
+public class TowardTheFutureRequest {
+    @NotNull
+    @Size(max = 3, min = 3, message = "pls send us less than 4 photo")
+    List<MultipartFile> multipartFile;
+    @NotNull
     String textAZ;
+    @NotNull
     String textENG;
+    @NotNull
+    String titleAZ;
+    @NotNull
+    String titleENG;
 }
-

@@ -14,41 +14,43 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping ("/contact")
+@RequestMapping("/contact")
 public class ContactController {
     private final ContactService service;
+
     @PostMapping
-    @Operation(summary ="contact create api",description = "this is contact create api")
-    public ResponseEntity<ContactResponse> add(@Valid  @RequestBody ContactRequest request){
+    @Operation(summary = "contact create api", description = "this is contact create api")
+    public ResponseEntity<ContactResponse> add(@Valid @RequestBody ContactRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(service.add(request));
     }
-        @GetMapping({"/{id}"})
-        @Operation(summary = "contact get api",description = "this is contact get api")
-    public ResponseEntity<ContactResponse> getById(@PathVariable String id){
+
+    @GetMapping({"/{id}"})
+    @Operation(summary = "contact get api", description = "this is contact get api")
+    public ResponseEntity<ContactResponse> getById(@PathVariable String id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(service.getById(id));
     }
 
-        @GetMapping
-        @Operation(summary = "contact getAll api",description = "this is contact getAll api")
-    public ResponseEntity<List<ContactResponse>> getAll(){
+    @GetMapping
+    @Operation(summary = "contact getAll api", description = "this is contact getAll api")
+    public ResponseEntity<List<ContactResponse>> getAll() {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(service.getAll());
-        }
+    }
 
-        @DeleteMapping({"/{id}"})
-        @Operation(summary = "contact delete api",description = "this is contact delete api")
-    public ResponseEntity<Void> delete(@PathVariable String id){
+    @DeleteMapping({"/{id}"})
+    @Operation(summary = "contact delete api", description = "this is contact delete api")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+    }
 
-        @PutMapping({"/{id}"})
-        @Operation(summary = "contact update api",description = "this is contact update api")
-    public ResponseEntity<ContactResponse> update(@PathVariable String id,@Valid @RequestBody ContactRequest request){
+    @PutMapping({"/{id}"})
+    @Operation(summary = "contact update api", description = "this is contact update api")
+    public ResponseEntity<ContactResponse> update(@PathVariable String id, @Valid @RequestBody ContactRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(service.update(id,request));
-        }
+                .body(service.update(id, request));
+    }
 
 }

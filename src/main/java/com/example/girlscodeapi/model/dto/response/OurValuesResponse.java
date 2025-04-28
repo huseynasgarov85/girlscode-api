@@ -1,19 +1,17 @@
-package com.example.girlscodeapi.model.dto.request;
+package com.example.girlscodeapi.model.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CoverPhotoRequestForUpdate {
-    String titleAZ;
-    String titleENG;
+public class OurValuesResponse {
+    String id;
     String textAZ;
     String textENG;
-    LocalDate date;
+    String titleAZ;
+    String titleENG;
 }

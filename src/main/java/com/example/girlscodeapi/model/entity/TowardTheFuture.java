@@ -1,23 +1,24 @@
 package com.example.girlscodeapi.model.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection ="contact")
 @Data
+@Document(collection = "towardTheFuture")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Contact {
+public class TowardTheFuture {
     @Id
     String id;
-    String fullName;
-    String email;
-    String title;
-    String message;
+    String firstPhotoUrl;
+    String secondPhotoUrl;
+    String thirdPhotoUrl;
+    String textAZ;
+    String textENG;
+    String titleAZ;
+    String titleENG;
 }
