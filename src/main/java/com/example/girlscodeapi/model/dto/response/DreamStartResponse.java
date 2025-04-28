@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-public class HeroInfoResponse {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class DreamStartResponse {
     String id;
     String textAz;
     String textEng;
-    String url;
+    String imageUrl;
 }

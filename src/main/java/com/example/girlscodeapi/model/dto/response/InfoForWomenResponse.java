@@ -4,11 +4,15 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-public class HeroInfoResponse {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class InfoForWomenResponse {
     String id;
+    String fullNameAz;
+    String fullNameEng;
+    String positionAz;
+    String positionEng;
     String textAz;
     String textEng;
-    String url;
+    String imageUrl;
 }
