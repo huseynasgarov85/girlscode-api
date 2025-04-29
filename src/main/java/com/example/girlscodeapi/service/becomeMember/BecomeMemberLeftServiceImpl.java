@@ -16,6 +16,14 @@ public class BecomeMemberLeftServiceImpl implements BecomeMemberLeftService {
 
     @Override
     public String post(BecomeMemberLeftRequest request) {
+        log.info("ActionLog started post request.ID" + request.getId());
+
+
+
+
+
+
+        log.info("ActionLog end post request.ID" + request.getId());
         return "";
     }
 }

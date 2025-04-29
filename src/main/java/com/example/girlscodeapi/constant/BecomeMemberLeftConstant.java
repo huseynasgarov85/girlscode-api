@@ -1,5 +1,5 @@
 package com.example.girlscodeapi.constant;
 
 public class BecomeMemberLeftConstant {
-    public static String url = "C:";
+    public static String url = "C://uploads/becomeMemberLeft/";
 }

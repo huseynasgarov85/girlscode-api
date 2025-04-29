@@ -3,7 +3,6 @@ package com.example.girlscodeapi.controller;
 import com.example.girlscodeapi.model.base.BaseResponse;
 import com.example.girlscodeapi.model.dto.request.BecomeMemberLeftRequest;
 import com.example.girlscodeapi.service.becomeMember.BecomeMemberLeftService;
-import com.example.girlscodeapi.service.becomeMember.BecomeMemberLeftServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
