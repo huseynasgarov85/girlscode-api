@@ -15,30 +15,28 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @Configuration
 @EnableMongoRepositories(basePackages = "com.example.girlscodeapi.model.repo")
-@ComponentScan(basePackages = "com.example.girlscodeapi")
+//@ComponentScan(basePackages = "com.example.girlscodeapi")
 public class MongoClientConnectionExample {
-    public static void main(String[] args) {
-        String connectionString = "mongodb+srv://girlscode:Kc4ycgqFGM2LRXDS@cluster0.7pmhsdk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-        ServerApi serverApi = ServerApi.builder()
-                .version(ServerApiVersion.V1)
-                .build();
-
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(connectionString))
-                .serverApi(serverApi)
-                .build();
-
-        // Create a new client and connect to the server
-        try (MongoClient mongoClient = MongoClients.create(settings)) {
-            try {
-                // Send a ping to confirm a successful connection
-                MongoDatabase database = mongoClient.getDatabase("admin");
-                database.runCommand(new Document("ping", 1));
-                System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
-            } catch (MongoException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public static void main(String[] args) {
+//        String connectionString = "mongodb+srv://girlscode:Kc4ycgqFGM2LRXDS@cluster0.7pmhsdk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+//
+//        ServerApi serverApi = ServerApi.builder()
+//                .version(ServerApiVersion.V1)
+//                .build();
+//
+//        MongoClientSettings settings = MongoClientSettings.builder()
+//                .applyConnectionString(new ConnectionString(connectionString))
+//                .serverApi(serverApi)
+//                .build();
+//
+//        try (MongoClient mongoClient = MongoClients.create(settings)) {
+//            try {
+//                MongoDatabase database = mongoClient.getDatabase("admin");
+//                database.runCommand(new Document("ping", 1));
+//                System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
+//            } catch (MongoException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }
