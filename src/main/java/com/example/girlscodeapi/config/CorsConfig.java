@@ -1,6 +1,5 @@
 package com.example.girlscodeapi.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -10,15 +9,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class CorsConfig implements WebMvcConfigurer {
 
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOriginPatterns("https://girlscode-api-1.onrender.com")
+        registry.addMapping("/**") // Tüm endpoint'lere izin ver
+                .allowedOrigins("https://girlscode-api-test.onrender.com/swagger-ui/index.html") // Gerekirse buraya Swagger'ın URL'ini yaz: "http://your-swagger-ui.com"
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
+                .allowedHeaders("*");
     }
 };
 
