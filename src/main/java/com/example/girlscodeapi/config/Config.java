@@ -16,5 +16,5 @@ import io.swagger.v3.oas.annotations.servers.Server;
         }
 )
 public class Config {
-    // No need to add anything here
+
 }
