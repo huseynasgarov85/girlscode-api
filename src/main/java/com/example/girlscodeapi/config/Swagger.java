@@ -12,7 +12,7 @@ public class Swagger {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .servers(List.of(new Server().url("https://girlscode-api-test.onrender.com")));
+                .servers(List.of(new Server().url("https://girlscode-api-1.onrender.com")));
     }
 }
 
