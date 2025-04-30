@@ -12,9 +12,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Tüm endpoint'lere izin ver
-                .allowedOrigins("https://girlscode-api-test.onrender.com/swagger-ui") // Gerekirse buraya Swagger'ın URL'ini yaz: "http://your-swagger-ui.com"
+                .allowedOrigins("https://girlscode-api-1.onrender.com") // Gerekirse buraya Swagger'ın URL'ini yaz: "http://your-swagger-ui.com"
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 };
 
