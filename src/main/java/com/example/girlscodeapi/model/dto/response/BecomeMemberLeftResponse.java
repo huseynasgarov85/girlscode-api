@@ -1,6 +1,5 @@
-package com.example.girlscodeapi.model.dto.request;
+package com.example.girlscodeapi.model.dto.response;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,15 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BecomeMemberLeftRequest {
-    @NotNull
+public class BecomeMemberLeftResponse {
+    String id;
     String titleAZ;
-    @NotNull
     String titleENG;
-    @NotNull
     String textAZ;
-    @NotNull
     String textENG;
-    @NotNull
-    MultipartFile multipartFile;
+    String url;
 }
