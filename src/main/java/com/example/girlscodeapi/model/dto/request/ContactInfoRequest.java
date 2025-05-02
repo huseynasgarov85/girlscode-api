@@ -1,24 +1,23 @@
 package com.example.girlscodeapi.model.dto.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BecomeMemberLeftRequest {
+public class ContactInfoRequest {
     @NotNull
-    String titleAZ;
+    String firstNumber;
     @NotNull
-    String titleENG;
+    String secondNumber;
+    @Email
     @NotNull
-    String textAZ;
+    String email;
     @NotNull
-    String textENG;
-    @NotNull
-    MultipartFile multipartFile;
+    String location;
 }

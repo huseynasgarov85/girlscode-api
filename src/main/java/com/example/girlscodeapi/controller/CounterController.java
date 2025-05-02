@@ -3,7 +3,6 @@ package com.example.girlscodeapi.controller;
 import com.example.girlscodeapi.model.base.BaseResponse;
 import com.example.girlscodeapi.model.dto.request.CounterRequest;
 import com.example.girlscodeapi.model.dto.response.CounterResponse;
-import com.example.girlscodeapi.model.repo.CounterRepo;
 import com.example.girlscodeapi.service.counter.CounterService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

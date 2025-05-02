@@ -3,22 +3,19 @@ package com.example.girlscodeapi.model.dto.request;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BecomeMemberLeftRequest {
+public class SocialMediaInContactRequest {
     @NotNull
-    String titleAZ;
+    String firstUrl;
     @NotNull
-    String titleENG;
+    String secondUrl;
     @NotNull
-    String textAZ;
+    String thirdUrl;
     @NotNull
-    String textENG;
-    @NotNull
-    MultipartFile multipartFile;
+    String fourthUrl;
 }
