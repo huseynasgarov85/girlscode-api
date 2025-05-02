@@ -33,11 +33,11 @@ public class BecomeMemberLeftController {
 
     @PutMapping(path = "/{id}", consumes = "multipart/form-data")
     @Operation(summary = "this end point will update which one you want to update", description = "update field's")
-    public BaseResponse<Void> update(@PathVariable String id,
+    public BaseResponse<Void> update(
                                      @RequestPart(name = "request", required = false) BecomeMemberLeftRequestForUpdate request,
                                      @RequestPart(name = "photo", required = false) MultipartFile multipartFile
     ) {
-        becomeMemberLeftService.update(id, request, multipartFile);
+        becomeMemberLeftService.update( request, multipartFile);
         return BaseResponse.success();
     }
 

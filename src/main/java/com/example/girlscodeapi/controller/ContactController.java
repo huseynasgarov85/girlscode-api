@@ -1,12 +1,11 @@
 package com.example.girlscodeapi.controller;
 
 import com.example.girlscodeapi.model.base.BaseResponse;
-import com.example.girlscodeapi.model.dto.request.ContactInfoRequest;
-import com.example.girlscodeapi.model.dto.request.ContactInfoRequestUpdate;
-import com.example.girlscodeapi.model.dto.request.ContactRequest;
-import com.example.girlscodeapi.model.dto.request.FormMemberRequestUpdate;
+import com.example.girlscodeapi.model.dto.request.*;
 import com.example.girlscodeapi.model.dto.response.ContactInfoResponse;
 import com.example.girlscodeapi.model.dto.response.ContactResponse;
+import com.example.girlscodeapi.model.dto.response.SocialMediaInContactResponse;
+import com.example.girlscodeapi.model.entity.SocialMediaInContact;
 import com.example.girlscodeapi.service.contact.ContactService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -66,7 +65,7 @@ public class ContactController {
         return BaseResponse.success();
     }
 
-    @GetMapping("/getContactInfoLeft")
+    @GetMapping("/contactInfoLeft")
     @Operation(summary = "this end point get all data's", description = "get all data")
     public BaseResponse<List<ContactInfoResponse>> getAllContactInfo() {
         return BaseResponse.success(service.getAllContactInfo());
@@ -79,12 +78,30 @@ public class ContactController {
         return BaseResponse.success();
     }
 
-    @DeleteMapping("/removeContactInfoLeft/{id}")
+    @DeleteMapping("/contactInfoLeft/{id}")
     @Operation(summary = "remove form", description = "remove user detail")
     public BaseResponse<Void> remove(@PathVariable String id) {
         service.remove(id);
         return BaseResponse.success();
     }
 
+    @PostMapping("/socialMedia")
+    @Operation(summary = "this end point will post social media links", description = "post social media links")
+    public BaseResponse<Void> postSocialMedia(@RequestBody @Valid SocialMediaInContactRequest socialMediaInContactRequest) {
+        service.postSocialMedia(socialMediaInContactRequest);
+        return BaseResponse.success();
+    }
 
+    @GetMapping("/socialMedia")
+    @Operation(summary = "this end point will getAll data's", description = "getAll data's")
+    public BaseResponse<List<SocialMediaInContactResponse>> getAllSocialMedia() {
+        return BaseResponse.success(service.getAllSocialMedia());
+    }
+
+    @PutMapping("/socialMedia")
+    @Operation(summary = "this end point update social media links", description = "update social media links")
+    public BaseResponse<Void> update(@RequestPart(required = false) SocialMediaInContactRequestUpdate socialMediaInContactRequest) {
+        service.update(socialMediaInContactRequest);
+        return BaseResponse.success();
+    }
 }

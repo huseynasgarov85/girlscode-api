@@ -49,9 +49,9 @@ public class BecomeMemberLeftServiceImpl implements BecomeMemberLeftService {
     }
 
     @Override
-    public void update(String id, BecomeMemberLeftRequestForUpdate request, MultipartFile multipartFile) {
-        log.info("ActionLog started id :" + id);
-        BecomeMemberLeft becomeMemberLeft = becomeMemberLeftRepo.findById("6813c796cb98ef2fe06dbe2a").orElseThrow(() -> BaseException.notFound(BecomeMemberLeft.class.getSimpleName(), "id", id.toString()));
+    public void update(BecomeMemberLeftRequestForUpdate request, MultipartFile multipartFile) {
+        log.info("ActionLog started");
+        BecomeMemberLeft becomeMemberLeft = becomeMemberLeftRepo.findById("6813c796cb98ef2fe06dbe2a").orElseThrow(() -> new RuntimeException("not found id"));
         try {
             if (request.getTextAZ() != null && !request.getTextAZ().isEmpty()) {
                 becomeMemberLeft.setTextAZ(request.getTextAZ());
@@ -75,6 +75,6 @@ public class BecomeMemberLeftServiceImpl implements BecomeMemberLeftService {
             log.error("ActionLog error");
             throw BaseException.unexpected();
         }
-        log.info("ActionLog end id :" + id);
+        log.info("ActionLog end :");
     }
 }

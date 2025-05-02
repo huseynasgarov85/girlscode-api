@@ -13,5 +13,5 @@ public interface BecomeMemberLeftService {
 
     List<BecomeMemberLeftResponse> getAll();
 
-    void update(String id, BecomeMemberLeftRequestForUpdate request, MultipartFile multipartFile);
+    void update(BecomeMemberLeftRequestForUpdate request, MultipartFile multipartFile);
 }

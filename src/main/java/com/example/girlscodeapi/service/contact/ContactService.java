@@ -1,10 +1,10 @@
 package com.example.girlscodeapi.service.contact;
 
-import com.example.girlscodeapi.model.dto.request.ContactInfoRequest;
-import com.example.girlscodeapi.model.dto.request.ContactInfoRequestUpdate;
-import com.example.girlscodeapi.model.dto.request.ContactRequest;
+import com.example.girlscodeapi.model.dto.request.*;
 import com.example.girlscodeapi.model.dto.response.ContactInfoResponse;
 import com.example.girlscodeapi.model.dto.response.ContactResponse;
+import com.example.girlscodeapi.model.dto.response.SocialMediaInContactResponse;
+import com.example.girlscodeapi.model.entity.SocialMediaInContact;
 
 import java.util.List;
 
@@ -26,5 +26,11 @@ public interface ContactService {
     void update(String id, ContactInfoRequestUpdate contactInfoRequestUpdate);
 
     void remove(String id);
+
+    void postSocialMedia(SocialMediaInContactRequest socialMediaInContactRequest);
+
+    List<SocialMediaInContactResponse> getAllSocialMedia();
+
+    void update(SocialMediaInContactRequestUpdate requestUpdate);
 
 }

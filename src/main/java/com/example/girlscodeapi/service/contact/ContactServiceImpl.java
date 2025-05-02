@@ -3,15 +3,17 @@ package com.example.girlscodeapi.service.contact;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.ContactInfoMapper;
 import com.example.girlscodeapi.mapper.ContactMapper;
-import com.example.girlscodeapi.model.dto.request.ContactInfoRequest;
-import com.example.girlscodeapi.model.dto.request.ContactInfoRequestUpdate;
-import com.example.girlscodeapi.model.dto.request.ContactRequest;
+import com.example.girlscodeapi.mapper.SocialMediaInContactMapper;
+import com.example.girlscodeapi.model.dto.request.*;
 import com.example.girlscodeapi.model.dto.response.ContactInfoResponse;
 import com.example.girlscodeapi.model.dto.response.ContactResponse;
+import com.example.girlscodeapi.model.dto.response.SocialMediaInContactResponse;
 import com.example.girlscodeapi.model.entity.Contact;
 import com.example.girlscodeapi.model.entity.ContactInfo;
+import com.example.girlscodeapi.model.entity.SocialMediaInContact;
 import com.example.girlscodeapi.model.repo.ContactInfoRepo;
 import com.example.girlscodeapi.model.repo.ContactRepository;
+import com.example.girlscodeapi.model.repo.SocialMediaInContactRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ public class ContactServiceImpl implements ContactService {
     private final ContactRepository repository;
     private final ContactInfoRepo contactInfoRepo;
     private final ContactInfoMapper contactInfoMapper;
+    private final SocialMediaInContactRepo socialMediaInContactRepo;
+    private final SocialMediaInContactMapper socialMediaInContactMapper;
 
     @Override
     public ContactResponse add(ContactRequest request) {
@@ -52,9 +56,7 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<ContactResponse> getAll() {
         List<Contact> contacts = repository.findAll();
-        return contacts.stream()
-                .map(mapper::mapToResponse)
-                .collect(Collectors.toList());
+        return contacts.stream().map(mapper::mapToResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -120,5 +122,61 @@ public class ContactServiceImpl implements ContactService {
             throw BaseException.unexpected();
         }
         log.info("ActionLog end id :" + id);
+    }
+
+    @Override
+    public void postSocialMedia(SocialMediaInContactRequest socialMediaInContactRequest) {
+        log.info("ActionLog started postSocialMediaInContact");
+        try {
+            SocialMediaInContact socialMediaInContact = socialMediaInContactMapper.mapToEntity(socialMediaInContactRequest);
+            socialMediaInContactRepo.save(socialMediaInContact);
+        } catch (Exception e) {
+            log.error("ActionLog error");
+            throw BaseException.unexpected();
+        }
+        log.info("ActionLog end postSocialMediaInContact");
+    }
+
+    @Override
+    public List<SocialMediaInContactResponse> getAllSocialMedia() {
+        log.info("ActionLog started getAllSocialMedia");
+        List<SocialMediaInContact> socialMediaInContacts = socialMediaInContactRepo.findAll();
+        log.info("ActionLog end getAllSocialMedia");
+        return socialMediaInContacts.stream().map(socialMediaInContactMapper::mapToResponse).toList();
+    }
+
+    @Override
+    public void update(SocialMediaInContactRequestUpdate requestUpdate) {
+        log.info("ActionLog started update");
+        SocialMediaInContact socialMediaInContact = socialMediaInContactRepo
+                .findById("68149d6ce6a0143a9b51b227")
+                .orElseThrow(() -> {
+                    log.error("SocialMediaInContact not found with id");
+                    return new RuntimeException("Not found ID");
+                });
+        System.out.println(requestUpdate);
+        Integer number = requestUpdate.getNumber();
+        if (number == null) {
+            log.error("Number is null in request");
+            throw new IllegalArgumentException("Number must not be null");
+        }
+        switch (number) {
+            case 1 -> socialMediaInContact.setFirstUrl(requestUpdate.getFirstUrl());
+            case 2 -> socialMediaInContact.setSecondUrl(requestUpdate.getSecondUrl());
+            case 3 -> socialMediaInContact.setThirdUrl(requestUpdate.getThirdUrl());
+            case 4 -> socialMediaInContact.setFourthUrl(requestUpdate.getFourthUrl());
+            default -> {
+                log.error("Invalid number in request: {}", number);
+                throw new IllegalArgumentException("Number must be between 1 and 4");
+            }
+        }
+
+        try {
+            socialMediaInContactRepo.save(socialMediaInContact);
+        } catch (Exception e) {
+            log.error("Error while saving socialMediaInContact", e);
+            throw BaseException.unexpected();
+        }
+        log.info("ActionLog end update");
     }
 }
