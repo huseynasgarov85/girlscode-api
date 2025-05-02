@@ -18,5 +18,4 @@ public class PagingResult<T> {
     private int pageSize;
     private int pageNumber;
     private boolean isEmpty;
-
 }

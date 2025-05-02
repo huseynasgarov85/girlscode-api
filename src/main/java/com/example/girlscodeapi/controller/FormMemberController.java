@@ -33,14 +33,15 @@ public class FormMemberController {
 
     @PutMapping(path = "/{id}")
     @Operation(summary = "this end point update field's", description = "update field's")
-    public BaseResponse<Void> update(@PathVariable String id, @RequestBody FormMemberRequestUpdate requestUpdate) {
+    public BaseResponse<Void> update(@PathVariable String id,
+                                     @RequestBody(required = false) @Valid FormMemberRequestUpdate requestUpdate) {
         formMemberService.update(id, requestUpdate);
         return BaseResponse.success();
     }
 
     @DeleteMapping(path = "/{id}")
     @Operation(summary = "remove form", description = "remove user detail")
-    public BaseResponse<Void> remove(String id) {
+    public BaseResponse<Void> remove(@PathVariable String id) {
         formMemberService.remove(id);
         return BaseResponse.success();
     }

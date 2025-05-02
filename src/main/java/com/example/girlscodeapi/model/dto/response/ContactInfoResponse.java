@@ -8,11 +8,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BecomeMemberLeftResponse {
+public class ContactInfoResponse {
     String id;
-    String titleAZ;
-    String titleENG;
-    String textAZ;
-    String textENG;
-    String url;
+    String firstNumber;
+    String secondNumber;
+    String email;
+    String location;
 }

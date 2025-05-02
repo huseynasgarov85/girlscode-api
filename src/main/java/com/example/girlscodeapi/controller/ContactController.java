@@ -1,6 +1,11 @@
 package com.example.girlscodeapi.controller;
 
+import com.example.girlscodeapi.model.base.BaseResponse;
+import com.example.girlscodeapi.model.dto.request.ContactInfoRequest;
+import com.example.girlscodeapi.model.dto.request.ContactInfoRequestUpdate;
 import com.example.girlscodeapi.model.dto.request.ContactRequest;
+import com.example.girlscodeapi.model.dto.request.FormMemberRequestUpdate;
+import com.example.girlscodeapi.model.dto.response.ContactInfoResponse;
 import com.example.girlscodeapi.model.dto.response.ContactResponse;
 import com.example.girlscodeapi.service.contact.ContactService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,5 +57,34 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(service.update(id, request));
     }
+
+
+    @PostMapping("/contactInfoLeft")
+    @Operation(summary = "This end point will post left side in contact info", description = "post contact info left side")
+    public BaseResponse<Void> post(@RequestBody @Valid ContactInfoRequest contactInfoRequest) {
+        service.post(contactInfoRequest);
+        return BaseResponse.success();
+    }
+
+    @GetMapping("/getContactInfoLeft")
+    @Operation(summary = "this end point get all data's", description = "get all data")
+    public BaseResponse<List<ContactInfoResponse>> getAllContactInfo() {
+        return BaseResponse.success(service.getAllContactInfo());
+    }
+
+    @PutMapping("/contactInfoLeft/{id}")
+    @Operation(summary = "this end point update field's", description = "update field's")
+    public BaseResponse<Void> update(@PathVariable String id, @RequestBody(required = false) @Valid ContactInfoRequestUpdate contactInfoRequestUpdate) {
+        service.update(id, contactInfoRequestUpdate);
+        return BaseResponse.success();
+    }
+
+    @DeleteMapping("/removeContactInfoLeft/{id}")
+    @Operation(summary = "remove form", description = "remove user detail")
+    public BaseResponse<Void> remove(@PathVariable String id) {
+        service.remove(id);
+        return BaseResponse.success();
+    }
+
 
 }
