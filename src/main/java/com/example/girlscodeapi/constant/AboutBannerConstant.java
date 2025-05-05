@@ -1,5 +1,5 @@
 package com.example.girlscodeapi.constant;
 
 public class AboutBannerConstant {
-    public static final String IMAGE_DIR="C:/uploads/aboutBanner/";
+    public static final String FOLDER_PATH ="C:/uploads/aboutBanner/";
 }

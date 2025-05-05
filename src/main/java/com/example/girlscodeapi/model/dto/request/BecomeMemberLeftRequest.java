@@ -1,5 +1,6 @@
 package com.example.girlscodeapi.model.dto.request;
 
+
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,6 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BecomeMemberLeftRequest {
+
+    String id;
+    String titleAZ;
+    String titleENG;
+    String textAZ;
+    String textENG;
     @NotNull
     String titleAZ;
     @NotNull
