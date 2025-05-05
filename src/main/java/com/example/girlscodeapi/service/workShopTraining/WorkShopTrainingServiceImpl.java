@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.service.WorkShopTraining;
+package com.example.girlscodeapi.service.workShopTraining;
 
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.WorkShopTrainingMapper;

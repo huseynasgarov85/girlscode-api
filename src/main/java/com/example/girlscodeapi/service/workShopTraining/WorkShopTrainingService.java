@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.service.WorkShopTraining;
+package com.example.girlscodeapi.service.workShopTraining;
 
 import com.example.girlscodeapi.model.dto.request.WorkShopTrainingRequest;
 import com.example.girlscodeapi.model.dto.response.WorkShopTrainingResponse;
