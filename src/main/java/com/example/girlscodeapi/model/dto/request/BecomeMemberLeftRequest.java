@@ -13,11 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BecomeMemberLeftRequest {
 
-    String id;
-    String titleAZ;
-    String titleENG;
-    String textAZ;
-    String textENG;
     @NotNull
     String titleAZ;
     @NotNull
