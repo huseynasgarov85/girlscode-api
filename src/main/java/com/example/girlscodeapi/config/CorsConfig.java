@@ -15,7 +15,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 //.allowedOrigins("https://girlscode-api-1.onrender.com")
                 .allowedOriginPatterns("http://localhost:*", "https://girlscode-api-1.onrender.com")
                 //.allowedOrigins("http://localhost:*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
