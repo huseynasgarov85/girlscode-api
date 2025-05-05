@@ -14,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class BecomeMemberLeftRequest {
 
     String id;
-    String titleAZ;
-    String titleENG;
-    String textAZ;
-    String textENG;
+
     @NotNull
     String titleAZ;
     @NotNull
