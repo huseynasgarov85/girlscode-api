@@ -1,23 +1,16 @@
 package com.example.girlscodeapi.service.networkingDays;
 
-
-import com.example.girlscodeapi.constant.NetworkingDaysConstant;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.NetworkingDaysMapper;
 import com.example.girlscodeapi.model.dto.request.NetworkingDaysRequest;
 import com.example.girlscodeapi.model.dto.response.NetworkingDaysResponse;
 import com.example.girlscodeapi.model.entity.NetworkingDays;
 import com.example.girlscodeapi.model.repo.NetworkingDaysRepository;
+import com.example.girlscodeapi.util.networkingDays.NetworkingDaysUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,18 +19,11 @@ import java.util.stream.Collectors;
 public class NetworkingDaysServiceImpl implements NetworkingDaysService {
     private final NetworkingDaysRepository repository;
     private final NetworkingDaysMapper mapper;
+    private final NetworkingDaysUtil networkingDaysUtil;
     @Override
     public NetworkingDaysResponse add(NetworkingDaysRequest request) {
-        String fileName= UUID.randomUUID()+"_"+request.getFile().getOriginalFilename();
-        Path filePath= Paths.get(NetworkingDaysConstant.IMAGE_DIR+fileName);
-        try {
-            Files.createDirectories(filePath.getParent());
-            Files.write(filePath,request.getFile().getBytes());
-        } catch (IOException e) {
-        log.warn("image could not be loaded {}",e.getMessage());
-        }
         NetworkingDays networkingDays=mapper.mapToEntity(request);
-        networkingDays.setImageUrl(NetworkingDaysConstant.IMAGE_DIR+fileName);
+        networkingDays.setImageUrl(networkingDaysUtil.saveFile(request.getFile()));
         repository.save(networkingDays);
         return mapper.mapToResponse(networkingDays);
     }
@@ -51,25 +37,11 @@ public class NetworkingDaysServiceImpl implements NetworkingDaysService {
     @Override
     public NetworkingDaysResponse update(String id, NetworkingDaysRequest request) {
         NetworkingDays  networkingDays=repository.findById(id).orElseThrow(()->BaseException.notFound(NetworkingDays.class.getSimpleName(),"id",id));
-        if (networkingDays!=null){
-            String oldFileName=Paths.get(networkingDays.getImageUrl()).getFileName().toString();
-            Path oldPath=Paths.get(NetworkingDaysConstant.IMAGE_DIR+oldFileName);
-            try {
-                Files.deleteIfExists(oldPath);
-            } catch (IOException e) {
-                log.warn(" old image could not be deleted {}",e.getMessage());
-            }
-        }
-        String newFileName=UUID.randomUUID()+"_"+request.getFile().getOriginalFilename();
-        Path newPath=Paths.get(NetworkingDaysConstant.IMAGE_DIR+newFileName);
-        try {
-            Files.createDirectories(newPath.getParent());
-            Files.write(newPath,request.getFile().getBytes());
-        } catch (IOException e) {
-            log.warn("new image could not be loaded {}",e.getMessage());
+        if (networkingDays.getImageUrl()!=null){
+           networkingDaysUtil.removeFile(networkingDays.getImageUrl());
         }
         NetworkingDays networkingDays1=mapper.map(request,networkingDays);
-        networkingDays1.setImageUrl(NetworkingDaysConstant.IMAGE_DIR+newFileName);
+        networkingDays1.setImageUrl(networkingDaysUtil.saveFile(request.getFile()));
         repository.save(networkingDays1);
         return mapper.mapToResponse(networkingDays1);
     }
@@ -77,14 +49,8 @@ public class NetworkingDaysServiceImpl implements NetworkingDaysService {
     @Override
     public void delete(String id) {
     NetworkingDays networkingDays=repository.findById(id).orElseThrow(()->BaseException.notFound(NetworkingDays.class.getSimpleName(),"id",id));
-    if (networkingDays!=null){
-        String oldFileName=Paths.get(networkingDays.getImageUrl()).getFileName().toString();
-        Path oldPath=Paths.get(NetworkingDaysConstant.IMAGE_DIR+oldFileName);
-        try {
-            Files.deleteIfExists(oldPath);
-        } catch (IOException e) {
-            log.warn("Image could not be deleted {}",e.getMessage());
-        }
+    if (networkingDays.getImageUrl()!=null){
+        networkingDaysUtil.removeFile(networkingDays.getImageUrl());
         repository.deleteById(id);
     }
     }
