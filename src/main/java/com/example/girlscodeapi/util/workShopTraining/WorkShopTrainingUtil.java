@@ -1,4 +1,4 @@
-package com.example.girlscodeapi.util.WorkShopTraining;
+package com.example.girlscodeapi.util.workShopTraining;
 import com.example.girlscodeapi.constant.WorkShopTrainingConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

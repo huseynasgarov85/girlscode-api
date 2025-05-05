@@ -6,7 +6,7 @@ import com.example.girlscodeapi.model.dto.request.WorkShopTrainingRequest;
 import com.example.girlscodeapi.model.dto.response.WorkShopTrainingResponse;
 import com.example.girlscodeapi.model.entity.WorkShopTraining;
 import com.example.girlscodeapi.model.repo.WorkShopTrainingRepository;
-import com.example.girlscodeapi.util.WorkShopTraining.WorkShopTrainingUtil;
+import com.example.girlscodeapi.util.workShopTraining.WorkShopTrainingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
