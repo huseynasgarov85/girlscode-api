@@ -8,8 +8,13 @@ import com.example.girlscodeapi.config.S3Config;
 import com.example.girlscodeapi.constant.UploadSliderFolderConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectResponse;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +27,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SliderStorageUtil {
     private final AmazonS3 amazonS3;
+    @Value("${aws.s3.bucket-name}")
+    private String bucketName;
 
     public String saveFile(MultipartFile file) {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
@@ -54,7 +61,7 @@ public class SliderStorageUtil {
         metadata.setContentLength(file.getSize());
         metadata.setContentType(file.getContentType());
 
-        amazonS3.putObject(new PutObjectRequest("your-bucket-name", fileName, file.getInputStream(), metadata)
+        amazonS3.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
 
         return amazonS3.getUrl("your-bucket-name", fileName).toString();
@@ -62,6 +69,6 @@ public class SliderStorageUtil {
     }
 
     public void deleteFromS3(String fileName) {
-        amazonS3.deleteObject("your-bucket-name", fileName);
+        amazonS3.deleteObject(bucketName, fileName);
     }
 }
