@@ -30,7 +30,7 @@ public class SliderServiceImpl implements SliderService {
             LinkedList<Slider> sliders = new LinkedList<>();
             for (MultipartFile photo : multipartFile) {
                 Slider slider = new Slider();
-                String fileUrl = sliderStorageUtil.saveFile(photo);
+                String fileUrl = sliderStorageUtil.uploadToS3(photo);
                 slider.setUrl(fileUrl);
                 sliders.add(slider);
             }
@@ -58,7 +58,7 @@ public class SliderServiceImpl implements SliderService {
         Slider slider = findById(id);
         try {
             sliderStorageUtil.removeFileIfExists(slider.getUrl());
-            String newFileUrl = sliderStorageUtil.saveFile(multipartFile);
+            String newFileUrl = sliderStorageUtil.uploadToS3(multipartFile);
             slider.setUrl(newFileUrl);
             sliderRepo.save(slider);
         } catch (Exception e) {
@@ -72,7 +72,7 @@ public class SliderServiceImpl implements SliderService {
         log.info("ActionLog started remove id :" + id);
         try {
             Slider slider = findById(id);
-            sliderStorageUtil.removeFileIfExists(slider.getUrl());
+            sliderStorageUtil.deleteFromS3(slider.getUrl());
             sliderRepo.deleteById(id);
         } catch (Exception e) {
             log.error("ActionLog error ");

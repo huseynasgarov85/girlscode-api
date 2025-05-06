@@ -13,7 +13,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 //.allowedOrigins("https://girlscode-api-1.onrender.com")
-                .allowedOriginPatterns("http://localhost:*", "https://girlscode-api-1.onrender.com")
+                .allowedOriginPatterns("http://localhost:*", "https://girlscode-api.onrender.com")
                 //.allowedOrigins("http://localhost:*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
