@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BecomeMemberLeftRequest {
-
     @NotNull
     String titleAZ;
     @NotNull
