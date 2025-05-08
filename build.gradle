@@ -21,6 +21,13 @@ configurations {
 
 repositories {
     mavenCentral()
+    google()
+}
+
+ext {
+    springCloudVersion = '2022.0.4' // veya projenin ihtiyaç duyduğu başka bir sürüm
+    springCloudGcpVersion = '4.7.1'
+    googleCloudStorageVersion = '2.8.0'
 }
 
 dependencies {
@@ -45,7 +52,14 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-
+    implementation "com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}"
+    implementation "com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}"
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
+    }
 }
 tasks.named('test') {
     useJUnitPlatform()

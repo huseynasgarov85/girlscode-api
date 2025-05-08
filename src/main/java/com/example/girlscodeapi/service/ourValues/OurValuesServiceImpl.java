@@ -41,12 +41,24 @@ public class OurValuesServiceImpl implements OurValuesService {
     }
 
     @Override
-    public void update(String id, OurValuesRequest ourValuesRequest) {
+    public void update(String id, OurValuesRequest request) {
         log.info("ActionLog started update id :" + id);
         OurValues ourValues = ourValuesRepo.findById(id).orElseThrow(() -> BaseException.notFound(OurValues.class.getSimpleName(), "id", id.toString()));
         try {
-            OurValues afterUpdate = ourValuesMapper.mapFromRequestToEntityForUpdate(ourValuesRequest, ourValues);
-            ourValuesRepo.save(afterUpdate);
+          //  OurValues afterUpdate = ourValuesMapper.mapFromRequestToEntityForUpdate(request, ourValues);
+            if (request.getTitleAZ() != null && !request.getTitleAZ().isEmpty()) {
+                ourValues.setTitleAZ(request.getTitleAZ());
+            }
+            if (request.getTitleENG() != null && !request.getTitleENG().isEmpty()) {
+                ourValues.setTitleENG(request.getTitleENG());
+            }
+            if (request.getTextAZ() != null && !request.getTextAZ().isEmpty()) {
+                ourValues.setTextAZ(request.getTextAZ());
+            }
+            if (request.getTextENG() != null && !request.getTextENG().isEmpty()) {
+                ourValues.setTextENG(request.getTextENG());
+            }
+            ourValuesRepo.save(ourValues);
         } catch (Exception e) {
             log.error("ActionLog error ");
             throw BaseException.unexpected();

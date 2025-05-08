@@ -2,6 +2,7 @@ package com.example.girlscodeapi.service.slider;
 
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.SliderMapper;
+import com.example.girlscodeapi.model.dto.StorageDto;
 import com.example.girlscodeapi.model.entity.Slider;
 import com.example.girlscodeapi.model.repo.SliderRepo;
 import com.example.girlscodeapi.model.dto.response.SliderResponse;
@@ -30,8 +31,9 @@ public class SliderServiceImpl implements SliderService {
             LinkedList<Slider> sliders = new LinkedList<>();
             for (MultipartFile photo : multipartFile) {
                 Slider slider = new Slider();
-                String fileUrl = sliderStorageUtil.saveFile(photo);
-                slider.setUrl(fileUrl);
+                log.info("multipart file :" + multipartFile);
+                StorageDto storageDto = sliderStorageUtil.uploadFile(photo);
+                slider.setUrl(storageDto.getUrl());
                 sliders.add(slider);
             }
             sliderRepo.saveAll(sliders);
