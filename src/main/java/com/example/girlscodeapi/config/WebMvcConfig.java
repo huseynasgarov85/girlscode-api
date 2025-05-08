@@ -15,7 +15,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/")
-                        .allowedOrigins("https://girlscode-api-1.onrender.com", "*")
+                        .allowedOrigins("*")
                         .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                         .allowedHeaders("*")
                         .exposedHeaders("*");
