@@ -15,11 +15,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/")
-                        .allowedOrigins("*")
+                        .allowedOrigins("https://girlscode-api-1.onrender.com", "*")
                         .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                         .allowedHeaders("*")
                         .exposedHeaders("*");
-                        //.allowCredentials(true);
+                //.allowCredentials(true);
             }
         };
     }
