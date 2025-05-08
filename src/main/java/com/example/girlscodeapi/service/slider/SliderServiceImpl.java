@@ -2,6 +2,7 @@ package com.example.girlscodeapi.service.slider;
 
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.SliderMapper;
+import com.example.girlscodeapi.model.dto.StorageDto;
 import com.example.girlscodeapi.model.entity.Slider;
 import com.example.girlscodeapi.model.repo.SliderRepo;
 import com.example.girlscodeapi.model.dto.response.SliderResponse;
@@ -30,8 +31,9 @@ public class SliderServiceImpl implements SliderService {
             LinkedList<Slider> sliders = new LinkedList<>();
             for (MultipartFile photo : multipartFile) {
                 Slider slider = new Slider();
-                String fileUrl = sliderStorageUtil.uploadToS3(photo);
-                slider.setUrl(fileUrl);
+                log.info("multipart file :" + multipartFile);
+                String storageDto = sliderStorageUtil.saveFile(photo);
+                slider.setUrl(storageDto);
                 sliders.add(slider);
             }
             sliderRepo.saveAll(sliders);
@@ -58,7 +60,7 @@ public class SliderServiceImpl implements SliderService {
         Slider slider = findById(id);
         try {
             sliderStorageUtil.removeFileIfExists(slider.getUrl());
-            String newFileUrl = sliderStorageUtil.uploadToS3(multipartFile);
+            String newFileUrl = sliderStorageUtil.saveFile(multipartFile);
             slider.setUrl(newFileUrl);
             sliderRepo.save(slider);
         } catch (Exception e) {
@@ -72,7 +74,7 @@ public class SliderServiceImpl implements SliderService {
         log.info("ActionLog started remove id :" + id);
         try {
             Slider slider = findById(id);
-            sliderStorageUtil.deleteFromS3(slider.getUrl());
+            sliderStorageUtil.removeFileIfExists(slider.getUrl());
             sliderRepo.deleteById(id);
         } catch (Exception e) {
             log.error("ActionLog error ");

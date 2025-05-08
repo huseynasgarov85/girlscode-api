@@ -1,22 +1,16 @@
 package com.example.girlscodeapi.service.infoForWomen;
 
-import com.example.girlscodeapi.constant.InfoForWomenConstant;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.InfoForWomenMapper;
 import com.example.girlscodeapi.model.dto.request.InfoForWomenRequest;
 import com.example.girlscodeapi.model.dto.response.InfoForWomenResponse;
 import com.example.girlscodeapi.model.entity.InfoForWomen;
 import com.example.girlscodeapi.model.repo.InfoForWomenRepository;
+import com.example.girlscodeapi.util.infoForWomen.InfoForWomenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,20 +19,11 @@ import java.util.stream.Collectors;
 public class InfoForWomenServiceImpl  implements InfoForWomenService{
     private final InfoForWomenMapper mapper;
    private final InfoForWomenRepository repository;
+   private final InfoForWomenUtil infoForWomenUtil;
     @Override
     public InfoForWomenResponse add(InfoForWomenRequest request) {
-        String fileName= UUID.randomUUID()+"_"+request.getFile().getOriginalFilename();
-        Path filePath= Paths.get(InfoForWomenConstant.IMAGE_DIR+fileName);
-        try {
-            Files.createDirectories(filePath.getParent());
-            Files.write(filePath,request.getFile().getBytes());
-        } catch (IOException e) {
-            log.warn("image could not be loaded: {}",e.getMessage());
-        }
-
         InfoForWomen infoForWomen=mapper.mapToEntity(request);
-
-        infoForWomen.setImageUrl(InfoForWomenConstant.IMAGE_DIR+fileName);
+        infoForWomen.setImageUrl(infoForWomenUtil.saveFile(request.getFile()));
         repository.save(infoForWomen);
         return mapper.mapToResponse(infoForWomen);
     }
@@ -52,25 +37,12 @@ public class InfoForWomenServiceImpl  implements InfoForWomenService{
     @Override
     public InfoForWomenResponse update(String id, InfoForWomenRequest request) {
         InfoForWomen infoForWomen=repository.findById(id).orElseThrow(()->BaseException.notFound(InfoForWomen.class.getSimpleName(),"id",id));
-        if (infoForWomen !=null){
-            String oldFileName=Paths.get(infoForWomen.getImageUrl()).getFileName().toString();
-            Path oldPath=Paths.get(InfoForWomenConstant.IMAGE_DIR+oldFileName);
-            try {
-                Files.deleteIfExists(oldPath);
-            } catch (IOException e) {
-                log.warn("old image could not be deleted {}",e.getMessage());
-            }
+        if (infoForWomen.getImageUrl() !=null){
+          infoForWomenUtil.removeFile(infoForWomen.getImageUrl());
         }
-        String newFileName=UUID.randomUUID()+"_"+request.getFile().getOriginalFilename();
-        Path newPath=Paths.get(InfoForWomenConstant.IMAGE_DIR+newFileName);
-        try {
-            Files.createDirectories(newPath.getParent());
-            Files.write(newPath,request.getFile().getBytes());
-        } catch (IOException e) {
-            log.warn("new image could not be loaded");
-        }
+
         InfoForWomen infoForWomen1=mapper.map(request,infoForWomen);
-        infoForWomen1.setImageUrl(InfoForWomenConstant.IMAGE_DIR+newFileName);
+        infoForWomen1.setImageUrl(infoForWomenUtil.saveFile(request.getFile()));
         repository.save(infoForWomen1);
         return mapper.mapToResponse(infoForWomen1);
     }
@@ -78,15 +50,8 @@ public class InfoForWomenServiceImpl  implements InfoForWomenService{
     @Override
     public void delete(String id) {
         InfoForWomen infoForWomen=repository.findById(id).orElseThrow(()-> BaseException.notFound(InfoForWomen.class.getSimpleName(),"id",id));
-        if (infoForWomen !=null){
-            String oldFileName=Paths.get(infoForWomen.getImageUrl()).getFileName().toString();
-            Path oldPath=Paths.get(InfoForWomenConstant.IMAGE_DIR+oldFileName);
-            try {
-                Files.deleteIfExists(oldPath);
-            } catch (IOException e) {
-                log.warn("old image could not be deleted {}",e.getMessage());
-
-            }
+        if (infoForWomen.getImageUrl() !=null){
+           infoForWomenUtil.removeFile(infoForWomen.getImageUrl());
             repository.deleteById(id);
         }
 

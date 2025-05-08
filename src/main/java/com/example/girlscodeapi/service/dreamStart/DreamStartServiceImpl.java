@@ -1,21 +1,15 @@
 package com.example.girlscodeapi.service.dreamStart;
 
-import com.example.girlscodeapi.constant.DreamStartConstant;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.mapper.DreamStartMapper;
 import com.example.girlscodeapi.model.dto.request.DreamStartRequest;
 import com.example.girlscodeapi.model.dto.response.DreamStartResponse;
 import com.example.girlscodeapi.model.entity.DreamStart;
 import com.example.girlscodeapi.model.repo.DreamStartRepository;
+import com.example.girlscodeapi.util.dreamStart.DreamStartUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -23,19 +17,12 @@ import java.util.UUID;
 public class DreamStartServiceImpl implements DreamStartService{
    private final DreamStartRepository repository;
    private final DreamStartMapper mapper;
+   private final DreamStartUtil dreamStartUtil;
 
     @Override
     public DreamStartResponse add(DreamStartRequest request) {
-        String fileName= UUID.randomUUID()+"_"+request.getFile().getOriginalFilename();
-        Path filePath=Paths.get(DreamStartConstant.IMAGE_DIR+fileName);
-        try {
-            Files.createDirectories(filePath.getParent());
-            Files.write(filePath,request.getFile().getBytes());
-        } catch (IOException e) {
-            log.warn("image could not be loaded");
-        }
         DreamStart dreamStart=mapper.mapToEntity(request);
-        dreamStart.setImageUrl(DreamStartConstant.IMAGE_DIR+fileName);
+        dreamStart.setImageUrl(dreamStartUtil.saveFile(request.getFile()));
         repository.save(dreamStart);
 
         return  mapper.mapToResponse(dreamStart);
@@ -50,29 +37,11 @@ public class DreamStartServiceImpl implements DreamStartService{
     @Override
     public DreamStartResponse update( DreamStartRequest request) {
         DreamStart dreamStart=repository.findById("680caf06a8009e26fce987d5").orElseThrow(()->BaseException.notFound(DreamStart.class.getSimpleName(),"id","680caf06a8009e26fce987d5"));
-        if (dreamStart!=null){
-            String oldFileName=Paths.get(dreamStart.getImageUrl()).getFileName().toString();
-            Path oldPath=Paths.get(DreamStartConstant.IMAGE_DIR+oldFileName);
-
-            log.info("old path {}",oldPath);
-
-            try {
-                Files.deleteIfExists(oldPath);
-            } catch (IOException e) {
-                log.warn("image could not be deleted {}",e.getMessage());
-            }
-        }
-        String newFileName=UUID.randomUUID()+"_"+request.getFile().getOriginalFilename();
-        Path newPath=Paths.get(DreamStartConstant.IMAGE_DIR+newFileName);
-        log.info("new path {}",newPath);
-        try {
-            Files.createDirectories(newPath.getParent());
-            Files.write(newPath,request.getFile().getBytes());
-        } catch (IOException e) {
-            log.warn("image could not be loaded {}",e.getMessage());
+        if (dreamStart.getImageUrl()!=null){
+          dreamStartUtil.removeFile(dreamStart.getImageUrl());
         }
         DreamStart dreamStart1=mapper.map(request,dreamStart);
-        dreamStart1.setImageUrl(DreamStartConstant.IMAGE_DIR+newFileName);
+        dreamStart1.setImageUrl(dreamStartUtil.saveFile(request.getFile()));
         repository.save(dreamStart1);
 
         return mapper.mapToResponse(dreamStart1);

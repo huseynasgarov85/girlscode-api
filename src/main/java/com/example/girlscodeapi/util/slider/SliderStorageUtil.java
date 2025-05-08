@@ -1,20 +1,15 @@
 package com.example.girlscodeapi.util.slider;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.example.girlscodeapi.config.S3Config;
 import com.example.girlscodeapi.constant.UploadSliderFolderConstant;
+import com.example.girlscodeapi.model.repo.InputFileRepository;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.DeleteObjectResponse;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,9 +21,9 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class SliderStorageUtil {
-    private final AmazonS3 amazonS3;
-    @Value("${aws.s3.bucket-name}")
-    private String bucketName;
+
+   // Storage storage;
+    private final InputFileRepository fileRepository;
 
     public String saveFile(MultipartFile file) {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
@@ -54,21 +49,70 @@ public class SliderStorageUtil {
     }
 
 
-    public String uploadToS3(MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID() + "-" + file.getOriginalFilename();
+//    public StorageDto uploadFile(MultipartFile multipartFile) {
+//        try {
+//            String fileName = multipartFile.getName() + "_" + System.currentTimeMillis();
+//            byte[] multipartArr = multipartFile.getBytes();
+//            BlobId blobId = BlobId.of(StorageConstant.bucketName, fileName);
+//            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpeg").build();
+//            String fileUrl = String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
+//            log.info("blob :" + blobInfo);
+//            Blob blob = storageConfig.create(blobInfo, multipartArr);
+//            StorageDto storageDto = StorageDto.builder().url(fileUrl).fileName(blob.getBlobId().getName()).build();
+//            log.info("storage response " + " " + storageDto.getFileName() + " " + storageDto.getUrl());
+//            return storageDto;
+//        } catch (IOException e) {
+//            throw new RuntimeException("Cloud upload failed", e);
+//        }
+//    }
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(file.getSize());
-        metadata.setContentType(file.getContentType());
+//    public StorageDto uploadFile(MultipartFile multipartFile) {
+//        try {
+//            String originalFilename = multipartFile.getOriginalFilename();
+//            String extension = originalFilename != null && originalFilename.contains(".")
+//                    ? originalFilename.substring(originalFilename.lastIndexOf("."))
+//                    : ".jpg";
+//            String fileName = UUID.randomUUID() + extension;
+//
+//            BlobId blobId = BlobId.of(bucketName, fileName);
+//            BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+//                    .setContentType(multipartFile.getContentType())
+//                    .build();
+//
+//            try (InputStream inputStream = multipartFile.getInputStream()) {
+//                Blob blob = storage.create(blobInfo, inputStream);
+//                String fileUrl = String.format("https://storage.googleapis.com/%s/%s", bucketName, fileName);
+//
+//                log.info("File uploaded: {}", fileUrl);
+//
+//                return StorageDto.builder()
+//                        .url(fileUrl)
+//                        .fileName(blob.getName())
+//                        .build();
+//            }
+//
+//        } catch (IOException e) {
+//            log.error("Upload failed", e);
+//            throw new RuntimeException("Cloud upload failed", e);
+//        }
+//    }
 
-        amazonS3.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
 
-        return amazonS3.getUrl("your-bucket-name", fileName).toString();
+//    public InputFile uploadFile(MultipartFile file) {
+//        String originalFileName = Objects.requireNonNull(file.getOriginalFilename(), "File name is null");
+//
+//        try {
+//            String contentType = Files.probeContentType(new File(originalFileName).toPath());
+//            StorageDto fileDto = uploadFile(file, originalFileName, contentType);
+//
+//            InputFile inputFile = InputFile.builder()
+//                    .fileName(fileDto.getFileName())
+//                    .fileUrl(fileDto.getUrl())
+//                    .build();
+//            return fileRepository.save(inputFile);
+//        } catch (IOException e) {
+//            throw new RuntimeException("File upload failed", e);
+//        }
+//    }
 
-    }
-
-    public void deleteFromS3(String fileName) {
-        amazonS3.deleteObject(bucketName, fileName);
-    }
 }

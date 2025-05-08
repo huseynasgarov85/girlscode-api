@@ -2,7 +2,7 @@ package com.example.girlscodeapi.controller;
 
 import com.example.girlscodeapi.model.dto.request.WorkShopTrainingRequest;
 import com.example.girlscodeapi.model.dto.response.WorkShopTrainingResponse;
-import com.example.girlscodeapi.service.WorkShopTraining.WorkShopTrainingService;
+import com.example.girlscodeapi.service.workShopTraining.WorkShopTrainingService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

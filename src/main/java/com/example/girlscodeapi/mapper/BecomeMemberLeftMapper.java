@@ -1,5 +1,4 @@
 package com.example.girlscodeapi.mapper;
-
 import com.example.girlscodeapi.model.dto.request.BecomeMemberLeftRequest;
 import com.example.girlscodeapi.model.dto.response.BecomeMemberLeftResponse;
 import com.example.girlscodeapi.model.entity.BecomeMemberLeft;
@@ -7,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BecomeMemberLeftMapper {
+
 
 
     public BecomeMemberLeft mapToEntity(BecomeMemberLeftRequest request, String url) {
