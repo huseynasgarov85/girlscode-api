@@ -31,14 +31,13 @@ public class SliderServiceImpl implements SliderService {
             LinkedList<Slider> sliders = new LinkedList<>();
             for (MultipartFile photo : multipartFile) {
                 Slider slider = new Slider();
-                log.info("multipart file :" + multipartFile);
-                String storageDto = sliderStorageUtil.saveFile(photo);
-                slider.setUrl(storageDto);
+                StorageDto storageDto = sliderStorageUtil.uploadFile(photo);
+                slider.setUrl(storageDto.getUrl());
                 sliders.add(slider);
             }
             sliderRepo.saveAll(sliders);
         } catch (Exception e) {
-            log.info("ActionLog error");
+            log.info("ActionLog error happen");
             throw BaseException.unexpected();
         }
         log.info("ActionLog add end multipartFile " + multipartFile);
@@ -59,9 +58,9 @@ public class SliderServiceImpl implements SliderService {
         log.info("ActionLog start update id :" + id);
         Slider slider = findById(id);
         try {
-            sliderStorageUtil.removeFileIfExists(slider.getUrl());
-            String newFileUrl = sliderStorageUtil.saveFile(multipartFile);
-            slider.setUrl(newFileUrl);
+            sliderStorageUtil.deleteFileByUrl(slider.getUrl());
+            StorageDto newFileUrl = sliderStorageUtil.uploadFile(multipartFile);
+            slider.setUrl(newFileUrl.getUrl());
             sliderRepo.save(slider);
         } catch (Exception e) {
             log.error("ActionLog error happen");
@@ -74,7 +73,7 @@ public class SliderServiceImpl implements SliderService {
         log.info("ActionLog started remove id :" + id);
         try {
             Slider slider = findById(id);
-            sliderStorageUtil.removeFileIfExists(slider.getUrl());
+            sliderStorageUtil.deleteFileByUrl(slider.getUrl());
             sliderRepo.deleteById(id);
         } catch (Exception e) {
             log.error("ActionLog error ");

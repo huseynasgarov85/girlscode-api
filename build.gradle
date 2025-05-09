@@ -25,7 +25,7 @@ repositories {
 }
 
 ext {
-    springCloudVersion = '2022.0.4' // veya projenin ihtiyaç duyduğu başka bir sürüm
+    springCloudVersion = '2022.0.4'
     springCloudGcpVersion = '4.7.1'
     googleCloudStorageVersion = '2.8.0'
 }
@@ -54,6 +54,8 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation "com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}"
     implementation "com.google.cloud:google-cloud-storage:${googleCloudStorageVersion}"
+    implementation 'com.google.cloud:google-cloud-storage:2.16.0'
+
 }
 dependencyManagement {
     imports {
