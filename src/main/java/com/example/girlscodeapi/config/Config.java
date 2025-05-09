@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 description = "Backend API documentation for GirlsCode Project"
         ),
         servers = {
-                @Server(url = "https://girlscode-api-1.onrender.com", description = "Render Production Server"),
+                @Server(url = "https://girlscode-api-test.onrender.com", description = "Render Production Server"),
                 @Server(url = "http://localhost:8080", description = "Local Development Server")
         }
 )

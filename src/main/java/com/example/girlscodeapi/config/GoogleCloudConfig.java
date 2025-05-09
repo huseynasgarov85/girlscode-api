@@ -7,10 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GoogleCloudConfig {
-
     @Bean
     public Storage storage() {
-        // Google Cloud Storage istemcisini oluşturuyoruz
         return StorageOptions.getDefaultInstance().getService();
+
     }
 }

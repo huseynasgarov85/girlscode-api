@@ -12,7 +12,7 @@ public class Swagger {
     @Bean
     public OpenAPI customOpenAPI() {
         Server server = new Server();
-        server.setUrl("https://girlscode-api-1.onrender.com");
+       // server.setUrl("https://girlscode-api-1.onrender.com");
         server.setDescription("Deployed Server");
         return new OpenAPI().servers(List.of(server));
     }
