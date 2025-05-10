@@ -4,6 +4,7 @@ import com.example.girlscodeapi.constant.StorageConstant;
 import com.example.girlscodeapi.constant.UploadSliderFolderConstant;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.model.dto.StorageDto;
+import com.example.girlscodeapi.util.GCP.GCPStorageUtil;
 import com.google.cloud.storage.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -51,52 +52,52 @@ public class SliderStorageUtil {
 //    }
 
     public StorageDto uploadFile(MultipartFile multipartFile) {
-        log.info("photo " + multipartFile.getName());
+        log.info("photo: " + multipartFile.getOriginalFilename());
         try {
-            String fileName = multipartFile.getName() + "_" + System.currentTimeMillis();
+            String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
             byte[] multipartArr = multipartFile.getBytes();
+
+            Storage storage = GCPStorageUtil.initializeStorage();
+
             BlobId blobId = BlobId.of(StorageConstant.bucketName, fileName);
-            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpeg").build();
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+                    .setContentType(multipartFile.getContentType())
+                    .build();
+
             Blob blob = storage.create(blobInfo, multipartArr);
-            log.info("Blob :" + storage);
-            String staticUrl = "https://storage.cloud.google.com/" + StorageConstant.bucketName + "/";
+
+            String staticUrl = "https://storage.googleapis.com/" + StorageConstant.bucketName + "/";
             String fullUrl = staticUrl + fileName;
+
             StorageDto storageDto = StorageDto.builder()
                     .url(fullUrl)
                     .fileName(blob.getBlobId().getName())
                     .build();
-            log.info("storage response " + " " + storageDto.getFileName() + " " + storageDto.getUrl());
+
+            log.info("Storage response: " + storageDto.getFileName() + " " + storageDto.getUrl());
             return storageDto;
+
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("ERROR " + e.getMessage());
+            log.error("Upload error: " + e.getMessage(), e);
             throw BaseException.unexpected();
         }
     }
 
-
     public void deleteFileByUrl(String fileUrl) {
         try {
             String fileName = extractFileNameFromUrl(fileUrl);
+            Storage storage = GCPStorageUtil.initializeStorage();
 
-            Storage storage = StorageOptions.getDefaultInstance().getService();
+            BlobId blobId = BlobId.of(StorageConstant.bucketName, fileName);
+            boolean deleted = storage.delete(blobId);
 
-            BlobId blobId = BlobId.of("girlscode-test", fileName);
-            Blob blob = storage.get(blobId);
-
-            if (blob != null) {
-                boolean deleted = blob.delete();
-                if (deleted) {
-                    System.out.println("File " + fileName + " successfully deleted from Google Cloud Storage.");
-                } else {
-                    System.err.println("Failed to delete file " + fileName + " from Google Cloud Storage.");
-                }
+            if (deleted) {
+                log.info("File " + fileName + " successfully deleted from Google Cloud Storage.");
             } else {
-                System.err.println("File " + fileName + " not found in Google Cloud Storage.");
+                log.warn("Failed to delete file " + fileName + " from Google Cloud Storage.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error deleting file from Google Cloud Storage: " + e.getMessage());
+            log.error("Error deleting file from Google Cloud Storage: " + e.getMessage(), e);
         }
     }
 
