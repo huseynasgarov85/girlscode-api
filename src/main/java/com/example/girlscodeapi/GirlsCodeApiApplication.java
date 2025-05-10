@@ -13,8 +13,8 @@ import java.io.IOException;
 public class GirlsCodeApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(GirlsCodeApiApplication.class, args);
-        String credentialsPath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
-        System.out.println("GOOGLE_APPLICATION_CREDENTIALS: " + credentialsPath);
+        String credentialsPath = System.getenv("GOOGLE_CREDENTIALS");
+        System.out.println("GOOGLE_CREDENTIALS: " + credentialsPath);
 
         // Burada credentialsPath null gəlirsə, bu o deməkdir ki, mühit dəyişəni tanınmır
         if (credentialsPath == null) {

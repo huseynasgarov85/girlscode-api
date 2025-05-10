@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -34,22 +35,34 @@ public class SliderStorageUtil {
     private static final String GOOGLE_CREDENTIALS = System.getenv("GOOGLE_CREDENTIALS");
 
     public static Storage connectToGoogleCloudStorage() throws IOException {
-        // GOOGLE_CREDENTIALS mühit dəyişənindən JSON məlumatını oxumaq
-        if (GOOGLE_CREDENTIALS == null || GOOGLE_CREDENTIALS.isEmpty()) {
-            throw new IllegalArgumentException("GOOGLE_CREDENTIALS mühit dəyişəni tapılmadı!");
-        }
+//        // GOOGLE_CREDENTIALS mühit dəyişənindən JSON məlumatını oxumaq
+//        if (GOOGLE_CREDENTIALS == null || GOOGLE_CREDENTIALS.isEmpty()) {
+//            throw new IllegalArgumentException("GOOGLE_CREDENTIALS mühit dəyişəni tapılmadı!");
+//        }
+//
+//        // JSON məlumatını byte array-ə çeviririk
+//        byte[] bytes = GOOGLE_CREDENTIALS.getBytes(StandardCharsets.UTF_8);
+//
+//        // ServiceAccountCredentials istifadə edərək Google Cloud autentifikasiyasını əldə edirik
+//        Credentials credentials = ServiceAccountCredentials.fromStream(new ByteArrayInputStream(bytes));
+//
+//        // Google Cloud Storage xidmətinə qoşulmaq
+//        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+//
+//        if (storage == null) {
+//            throw new IOException("Google Cloud Storage xidmətinə qoşulma uğursuz oldu!");
+//        }
 
-        // JSON məlumatını byte array-ə çeviririk
-        byte[] bytes = GOOGLE_CREDENTIALS.getBytes(StandardCharsets.UTF_8);
+        Storage storage = null;
+        try {
+            storage = StorageOptions.newBuilder()
+                    .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/etc/secrets/gcp-credentials.json")))
+                    .build()
+                    .getService();
 
-        // ServiceAccountCredentials istifadə edərək Google Cloud autentifikasiyasını əldə edirik
-        Credentials credentials = ServiceAccountCredentials.fromStream(new ByteArrayInputStream(bytes));
-
-        // Google Cloud Storage xidmətinə qoşulmaq
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-
-        if (storage == null) {
-            throw new IOException("Google Cloud Storage xidmətinə qoşulma uğursuz oldu!");
+            System.out.println("Google Cloud Storage connection successful!");
+        } catch (IOException e) {
+            System.err.println("Failed to authenticate with Google Cloud: " + e.getMessage());
         }
 
         return storage;
