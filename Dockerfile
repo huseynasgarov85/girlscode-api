@@ -11,9 +11,10 @@ ENV MONGODB_DATABASE=girlscode
 ENV MONGODB_USERNAME=girlscode
 ENV MONGODB_PASSWORD=Kc4ycgqFGM2LRXDS
 
-#ENV AWS_ACCESS_KEY_ID=AKIAWG7XYJXWRK4MA67T
-#ENV AWS_SECRET_ACCESS_KEY=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
-#ENV AWS_REGION=eu-north-1
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/resources/credential.json
+
+# credentials dosyasını konteynerin içine kopyalayın
+COPY src/main/resources/credential.json /app/resources/credential.json
 
 COPY --from=build /home/gradle/build/libs/*.jar app.jar
 

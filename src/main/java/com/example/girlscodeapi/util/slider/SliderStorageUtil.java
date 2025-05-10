@@ -32,41 +32,41 @@ import java.util.UUID;
 public class SliderStorageUtil {
 
     Storage storage;
-    private static final String GOOGLE_CREDENTIALS = System.getenv("GOOGLE_CREDENTIALS");
-
-    public static Storage connectToGoogleCloudStorage() throws IOException {
-//        // GOOGLE_CREDENTIALS mühit dəyişənindən JSON məlumatını oxumaq
-//        if (GOOGLE_CREDENTIALS == null || GOOGLE_CREDENTIALS.isEmpty()) {
-//            throw new IllegalArgumentException("GOOGLE_CREDENTIALS mühit dəyişəni tapılmadı!");
+//    private static final String GOOGLE_CREDENTIALS = System.getenv("GOOGLE_CREDENTIALS");
+//
+//    public static Storage connectToGoogleCloudStorage() throws IOException {
+////        // GOOGLE_CREDENTIALS mühit dəyişənindən JSON məlumatını oxumaq
+////        if (GOOGLE_CREDENTIALS == null || GOOGLE_CREDENTIALS.isEmpty()) {
+////            throw new IllegalArgumentException("GOOGLE_CREDENTIALS mühit dəyişəni tapılmadı!");
+////        }
+////
+////        // JSON məlumatını byte array-ə çeviririk
+////        byte[] bytes = GOOGLE_CREDENTIALS.getBytes(StandardCharsets.UTF_8);
+////
+////        // ServiceAccountCredentials istifadə edərək Google Cloud autentifikasiyasını əldə edirik
+////        Credentials credentials = ServiceAccountCredentials.fromStream(new ByteArrayInputStream(bytes));
+////
+////        // Google Cloud Storage xidmətinə qoşulmaq
+////        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+////
+////        if (storage == null) {
+////            throw new IOException("Google Cloud Storage xidmətinə qoşulma uğursuz oldu!");
+////        }
+//
+//        Storage storage = null;
+//        try {
+//            storage = StorageOptions.newBuilder()
+//                    .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/etc/secrets/gcp-credentials.json")))
+//                    .build()
+//                    .getService();
+//
+//            System.out.println("Google Cloud Storage connection successful!");
+//        } catch (IOException e) {
+//            System.err.println("Failed to authenticate with Google Cloud: " + e.getMessage());
 //        }
 //
-//        // JSON məlumatını byte array-ə çeviririk
-//        byte[] bytes = GOOGLE_CREDENTIALS.getBytes(StandardCharsets.UTF_8);
-//
-//        // ServiceAccountCredentials istifadə edərək Google Cloud autentifikasiyasını əldə edirik
-//        Credentials credentials = ServiceAccountCredentials.fromStream(new ByteArrayInputStream(bytes));
-//
-//        // Google Cloud Storage xidmətinə qoşulmaq
-//        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-//
-//        if (storage == null) {
-//            throw new IOException("Google Cloud Storage xidmətinə qoşulma uğursuz oldu!");
-//        }
-
-        Storage storage = null;
-        try {
-            storage = StorageOptions.newBuilder()
-                    .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream("/etc/secrets/gcp-credentials.json")))
-                    .build()
-                    .getService();
-
-            System.out.println("Google Cloud Storage connection successful!");
-        } catch (IOException e) {
-            System.err.println("Failed to authenticate with Google Cloud: " + e.getMessage());
-        }
-
-        return storage;
-    }
+//        return storage;
+//    }
 
     public StorageDto uploadFile(MultipartFile multipartFile) {
         log.info("photo: " + multipartFile.getOriginalFilename());
@@ -74,7 +74,6 @@ public class SliderStorageUtil {
             String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
             byte[] multipartArr = multipartFile.getBytes();
 
-            Storage storage = connectToGoogleCloudStorage();
 
             BlobId blobId = BlobId.of(StorageConstant.bucketName, fileName);
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
