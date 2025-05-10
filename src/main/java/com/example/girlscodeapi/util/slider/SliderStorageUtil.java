@@ -5,6 +5,8 @@ import com.example.girlscodeapi.constant.UploadSliderFolderConstant;
 import com.example.girlscodeapi.exception.BaseException;
 import com.example.girlscodeapi.model.dto.StorageDto;
 import com.example.girlscodeapi.util.GCP.GCPStorageUtil;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,29 +31,29 @@ import java.util.UUID;
 public class SliderStorageUtil {
 
     Storage storage;
+    private static final String GOOGLE_CREDENTIALS = System.getenv("GOOGLE_CREDENTIALS");
 
-//    public String saveFile(MultipartFile file) {
-//        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-//        Path filePath = Paths.get(UploadSliderFolderConstant.UPLOAD_SLIDER_FOLDER_PATH).resolve(fileName);
-//        try {
-//            Files.createDirectories(filePath.getParent());
-//            Files.write(filePath, file.getBytes());
-//        } catch (IOException e) {
-//            throw new RuntimeException("File could not be saved: " + e.getMessage(), e);
-//        }
-//        return filePath.toString();
-//    }
-//
-//    public void removeFileIfExists(String fileUrl) {
-//        try {
-//            System.out.println(fileUrl);
-//            Path filePath = Paths.get(fileUrl);
-//            Files.deleteIfExists(filePath);
-//            log.info("Deleted file: " + filePath);
-//        } catch (IOException e) {
-//            log.warn("Could not delete file: " + fileUrl + " => " + e.getMessage());
-//        }
-//    }
+    public static Storage connectToGoogleCloudStorage() throws IOException {
+        // GOOGLE_CREDENTIALS mühit dəyişənindən JSON məlumatını oxumaq
+        if (GOOGLE_CREDENTIALS == null || GOOGLE_CREDENTIALS.isEmpty()) {
+            throw new IllegalArgumentException("GOOGLE_CREDENTIALS mühit dəyişəni tapılmadı!");
+        }
+
+        // JSON məlumatını byte array-ə çeviririk
+        byte[] bytes = GOOGLE_CREDENTIALS.getBytes(StandardCharsets.UTF_8);
+
+        // ServiceAccountCredentials istifadə edərək Google Cloud autentifikasiyasını əldə edirik
+        Credentials credentials = ServiceAccountCredentials.fromStream(new ByteArrayInputStream(bytes));
+
+        // Google Cloud Storage xidmətinə qoşulmaq
+        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
+
+        if (storage == null) {
+            throw new IOException("Google Cloud Storage xidmətinə qoşulma uğursuz oldu!");
+        }
+
+        return storage;
+    }
 
     public StorageDto uploadFile(MultipartFile multipartFile) {
         log.info("photo: " + multipartFile.getOriginalFilename());
@@ -57,7 +61,7 @@ public class SliderStorageUtil {
             String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
             byte[] multipartArr = multipartFile.getBytes();
 
-            Storage storage = GCPStorageUtil.initializeStorage();
+            Storage storage = connectToGoogleCloudStorage();
 
             BlobId blobId = BlobId.of(StorageConstant.bucketName, fileName);
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
